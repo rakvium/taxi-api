@@ -1,5 +1,5 @@
 class Dispatcher < ApplicationRecord
   validates :name, presence: true
-  validetes :emila, presence: true
-  validetes :password, presence: true
+  validates :email, presence: true, uniqueness: true
+  validates :password, presence: true
 end
