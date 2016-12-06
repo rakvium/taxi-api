@@ -17,7 +17,6 @@ ActiveRecord::Schema.define(version: 20161206130507) do
 
   create_table "dispatchers", force: :cascade do |t|
     t.string   "email"
-    t.string   "string"
     t.string   "password"
     t.string   "name"
     t.datetime "created_at", null: false
