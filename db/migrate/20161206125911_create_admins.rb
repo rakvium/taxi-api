@@ -8,4 +8,11 @@ class CreateAdmins < ActiveRecord::Migration[5.0]
       t.timestamps
     end
   end
+
+  attr_accessor :name, :email, :password
+  def initialize(attributes = {})
+    @name  = attributes[:name]
+    @email = attributes[:email]
+    @password = attributes[:password]
+  end
 end
