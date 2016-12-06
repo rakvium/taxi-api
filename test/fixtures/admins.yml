@@ -3,9 +3,9 @@
 one:
   name: MyString
   email: MyString
-  pasword: MyString
+  password: MyString
 
 two:
   name: MyString
   email: MyString
-  pasword: MyString
+  password: MyString

@@ -3,7 +3,7 @@ class CreateAdmins < ActiveRecord::Migration[5.0]
     create_table :admins do |t|
       t.string :name
       t.string :email
-      t.string :pasword
+      t.string :password
 
       t.timestamps
     end
