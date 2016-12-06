@@ -16,9 +16,9 @@ ActiveRecord::Schema.define(version: 20161206130507) do
   enable_extension "plpgsql"
 
   create_table "dispatchers", force: :cascade do |t|
-    t.string   "email"
-    t.string   "password"
-    t.string   "name"
+    t.string   "email",      null: false
+    t.string   "password",   null: false
+    t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
