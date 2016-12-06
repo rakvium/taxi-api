@@ -17,9 +17,10 @@ ActiveRecord::Schema.define(version: 20161206115524) do
 
   create_table "clients", force: :cascade do |t|
     t.string   "email"
-    t.string   "phone"
+    t.string   "phone",      null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["phone"], name: "index_clients_on_phone", unique: true, using: :btree
   end
 
 end
