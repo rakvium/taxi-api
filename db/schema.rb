@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20161206130507) do
     t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_dispatchers_on_email", unique: true, using: :btree
   end
 
 end
