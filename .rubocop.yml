@@ -13,3 +13,5 @@ Metrics/ClassLength:
 Lint/AssignmentInCondition:
     Exclude: 
       - 'bin/spring'
+      - 'db/migrate'
+      - 'db/schema.rb'
