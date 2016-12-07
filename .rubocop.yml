@@ -9,3 +9,7 @@ Metrics/MethodLength:
 
 Metrics/ClassLength:
     Max: 200
+
+Lint/AssignmentInCondition:
+    Exclude: 
+      - 'bin/spring'
