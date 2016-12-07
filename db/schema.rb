@@ -23,4 +23,15 @@ ActiveRecord::Schema.define(version: 20161206131603) do
     t.index ["phone"], name: "index_clients_on_phone", unique: true, using: :btree
   end
 
+  create_table "drivers", force: :cascade do |t|
+    t.string   "name",                              null: false
+    t.string   "phone",                             null: false
+    t.string   "pass",                              null: false
+    t.string   "auto",                              null: false
+    t.string   "status",     default: "not active"
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.index ["phone"], name: "index_drivers_on_phone", unique: true, using: :btree
+  end
+
 end
