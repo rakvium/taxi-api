@@ -10,19 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161207105344) do
+ActiveRecord::Schema.define(version: 20161207120240) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-
-  create_table "dispatchers", force: :cascade do |t|
-    t.string   "email",      null: false
-    t.string   "password",   null: false
-    t.string   "name",       null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_dispatchers_on_email", unique: true, using: :btree
 
   create_table "admins", force: :cascade do |t|
     t.string   "name",       null: false
@@ -31,6 +22,7 @@ ActiveRecord::Schema.define(version: 20161207105344) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admins_on_email", unique: true, using: :btree
+  end
 
   create_table "clients", force: :cascade do |t|
     t.string   "email"
@@ -38,6 +30,15 @@ ActiveRecord::Schema.define(version: 20161207105344) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["phone"], name: "index_clients_on_phone", unique: true, using: :btree
+  end
+
+  create_table "dispatchers", force: :cascade do |t|
+    t.string   "email",      null: false
+    t.string   "password",   null: false
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_dispatchers_on_email", unique: true, using: :btree
   end
 
   create_table "drivers", force: :cascade do |t|
@@ -51,4 +52,20 @@ ActiveRecord::Schema.define(version: 20161207105344) do
     t.index ["phone"], name: "index_drivers_on_phone", unique: true, using: :btree
   end
 
+  create_table "orders", force: :cascade do |t|
+    t.integer  "client_id"
+    t.integer  "driver_id"
+    t.string   "from",                               null: false
+    t.string   "to",                                 null: false
+    t.string   "state"
+    t.decimal  "price",      precision: 5, scale: 2
+    t.text     "comment"
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.index ["client_id"], name: "index_orders_on_client_id", using: :btree
+    t.index ["driver_id"], name: "index_orders_on_driver_id", using: :btree
+  end
+
+  add_foreign_key "orders", "clients"
+  add_foreign_key "orders", "drivers"
 end
