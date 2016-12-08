@@ -27,4 +27,3 @@ capybara-*.html
 .byebug_history
 
 /config/database.yml
-

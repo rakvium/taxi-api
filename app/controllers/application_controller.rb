@@ -6,7 +6,7 @@ class ApplicationController < ActionController::API
 
   def authenticate_request!
     unless user_id_in_token?
-      render json: { errors: ['Not 1Authenticated'] }, status: :unauthorized
+      render json: { errors: ['Not Authenticated'] }, status: :unauthorized
       return
     end
     @current_user = Driver.find(auth_token[:user_id])
