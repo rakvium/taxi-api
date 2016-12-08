@@ -27,6 +27,5 @@ module TaxiApi
     # Skip views, helpers and assets when generating a new resource.
     # config.middleware.use ActionDispatch::Flash
     config.api_only = true
-    config.middleware.use ActionDispatch::Flash
   end
 end

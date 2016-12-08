@@ -14,7 +14,7 @@ class Driver < ApplicationRecord
     @login = login
   end
 
-  def login
+  def self.login
     @login || self.phone
   end
 
