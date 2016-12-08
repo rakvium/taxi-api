@@ -8,6 +8,7 @@ Devise.setup do |config|
   # by default. You can change it below and use your own secret key.
   # config.secret_key = '2c0b91c09b23a6fabe84e7c1e7fb2ddbc74cc25ca0f7d95b69dc97b57035935143ca346fe99736d50ccac53c14fd1756346ff07623b3193cfef6a34e9c6a4614'
 
+
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
@@ -35,6 +36,7 @@ Devise.setup do |config|
   # You can also supply a hash where the value is a boolean determining whether
   # or not authentication should be aborted when the value is not present.
   config.authentication_keys = [:login, :phone]
+  # config.authentication_keys = [:email]
 
   # Configure parameters from the request object used for authentication. Each entry
   # given should be a request method and it will automatically be passed to the
@@ -46,12 +48,12 @@ Devise.setup do |config|
   # Configure which authentication keys should be case-insensitive.
   # These keys will be downcased upon creating or modifying a user and when used
   # to authenticate or find a user. Default is :email.
-  config.case_insensitive_keys = [:phone]
+  config.case_insensitive_keys = [:email, :phone]
 
   # Configure which authentication keys should have whitespace stripped.
   # These keys will have whitespace before and after removed upon creating or
   # modifying a user and when used to authenticate or find a user. Default is :email.
-  config.strip_whitespace_keys = [:phone]
+  config.strip_whitespace_keys = [:email, :phone]
 
   # Tell if authentication through request.params is enabled. True by default.
   # It can be set to an array that will enable params authentication only for the
@@ -137,6 +139,7 @@ Devise.setup do |config|
 
   # Defines which key will be used when confirming an account
    config.confirmation_keys = [:phone]
+  # config.confirmation_keys = [:email]
 
   # ==> Configuration for :rememberable
   # The time the user will be remembered without asking for credentials again.
@@ -173,7 +176,7 @@ Devise.setup do |config|
   # config.lock_strategy = :failed_attempts
 
   # Defines which key will be used when locking and unlocking an account
-  # config.unlock_keys = [:phone]
+  # config.unlock_keys = [:email, :phone]
 
   # Defines which strategy will be used to unlock an account.
   # :email = Sends an unlock link to the user email
@@ -241,8 +244,7 @@ Devise.setup do |config|
   # The "*/*" below is required to match Internet Explorer requests.
   #config.navigational_formats = [:json]
   config.navigational_formats = ['*/*', :json, :html]
-  #config.navigational_formats = ['*/*', :json]
-
+  #config.navigational_formats = ['*/*', :html]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete

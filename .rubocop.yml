@@ -1,0 +1,20 @@
+Rails:
+    Enabled: true
+
+Metrics/LineLength:
+    Max: 120
+
+Metrics/MethodLength:
+    Max: 15
+
+Metrics/ClassLength:
+    Max: 200
+
+Lint/AssignmentInCondition:
+    Exclude: 
+      - 'bin/spring'
+
+AllCops:
+    Exclude:
+      - 'db/migrate/**'
+      - 'db/schema.rb'
