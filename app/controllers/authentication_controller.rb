@@ -1,26 +1,20 @@
 class AuthenticationController < ApplicationController
   def authenticate_user
-
-
-    user = Driver.find_by_phone(params[:phone])
-
-    if user.valid_password?(params[:password])
+    user = Driver.find_by(phone: params[:phone])
+    if user.try(:valid_password?, params[:password])
       render json: payload(user)
-    # render json: payload(user)
-    #else
-    #  render json: {errors: ["Invalid Username/Password #{user.id}"]}, status: :unauthorized
+    else
+      render json: { errors: ['Invalid Username/Password'] }, status: :unauthorized
     end
-  end#permitted = params.require(:user).permit(:name, :age)
-
+  end
 
   private
 
   def payload(user)
-    return nil unless user and user.id
+    return nil unless user && user.id
     {
-      auth_token: JsonWebToken.encode({user_id: user.id}),
-      driver: {id: user.id, phone: user.phone}
+      auth_token: JsonWebToken.encode(user_id: user.id),
+      driver: { id: user.id, phone: user.phone }
     }
   end
 end
-
