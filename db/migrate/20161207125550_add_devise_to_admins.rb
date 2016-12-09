@@ -1,7 +1,8 @@
 class AddDeviseToAdmins < ActiveRecord::Migration[5.0]
   def self.up
     change_table :admins do |t|
-
+      ## Database authenticatable
+      rename_column :admins, :password, :encrypted_password
       ## Recoverable
       t.string   :reset_password_token
       t.datetime :reset_password_sent_at
