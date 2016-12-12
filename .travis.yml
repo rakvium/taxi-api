@@ -2,7 +2,6 @@ addons:
   postgresql: '9.4'
 before_script:
   - cp config/database.yml.sample config/database.yml
-  - cp config/secrets.yml.sample config/secrets.yml
 language: ruby
 rvm:
 - 2.3.1
