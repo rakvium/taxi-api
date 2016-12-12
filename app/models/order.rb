@@ -1,6 +1,6 @@
 class Order < ApplicationRecord
   belongs_to :client
-  belongs_to :driver
+  belongs_to :driver, optional: true
   validates :from, presence: true
   validates :to, presence: true
   validates :state, presence: true
