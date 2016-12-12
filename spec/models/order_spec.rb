@@ -8,7 +8,7 @@ RSpec.describe Order, type: :model do
   end
   context 'validation' do
     it 'should be valid' do
-      expect(build(:order)).to be_valid
+      expect(create(:order)).to be_valid
     end
   end
 end
