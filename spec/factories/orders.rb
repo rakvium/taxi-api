@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :order do
-    client FactoryGirl.create(:client)
+    client
     from { Faker::Address.street_address }
     to { Faker::Address.street_address }
     state 'Waiting'

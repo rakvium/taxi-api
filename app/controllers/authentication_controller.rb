@@ -1,3 +1,4 @@
+# authenticates users
 class AuthenticationController < ApplicationController
   def authenticate_user
     user = Driver.find_by(phone: params[:phone])

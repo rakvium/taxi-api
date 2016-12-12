@@ -1,3 +1,5 @@
+# Clients' orders
+# Drivers takes them voluntarily
 class Order < ApplicationRecord
   belongs_to :client
   belongs_to :driver, optional: true
