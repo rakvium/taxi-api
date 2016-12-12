@@ -3,6 +3,7 @@ class Driver < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   # attr_accessor :phone
+  has_many :orders
 
   attr_writer :login
 
@@ -26,6 +27,4 @@ class Driver < ApplicationRecord
       find_by(phone: conditions[:phone])
     end
   end
-
-  has_many :orders
 end
