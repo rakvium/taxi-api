@@ -1,3 +1,4 @@
+# encodes and decodes JSON web tokens for authentication
 class JsonWebToken
   def self.encode(payload)
     JWT.encode(payload, Rails.application.secrets.secret_key_base)

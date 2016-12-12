@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :drivers # defaults: { format: :json } # из-за undefined method `flash'
+  devise_for :drivers
   post 'auth_user' => 'authentication#authenticate_user'
   get 'home' => 'home#index'
   devise_for :admins
