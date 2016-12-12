@@ -18,7 +18,7 @@ AllCops:
     Exclude:
       - 'db/migrate/**'
       - 'db/schema.rb'
-      - 'vendor/bundle'
+      - 'vendor/**/*'
 
 Style/FrozenStringLiteralComment:
   Enabled: false
