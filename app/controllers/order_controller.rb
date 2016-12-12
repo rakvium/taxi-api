@@ -10,7 +10,7 @@ class OrderController < ApplicationController
     if ord.save
       render json: { 'result' => 'Your order was successfully added. Your id: ' + ord.id.to_s }
     else
-      render json: { 'error' => 'Something went wrong' }
+      render json: { 'error' => ord.errors }
     end
   end
 
