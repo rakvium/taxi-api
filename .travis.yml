@@ -8,6 +8,7 @@ rvm:
 script:
   - bundle exec rake db:setup
   - bundle exec rake spec
+  - bundle exec rubocop
 cache: bundler
 services:
   - postgresql
