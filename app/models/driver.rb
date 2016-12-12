@@ -26,4 +26,6 @@ class Driver < ApplicationRecord
       find_by(phone: conditions[:phone])
     end
   end
+
+  has_many :orders
 end
