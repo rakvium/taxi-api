@@ -1,3 +1,4 @@
+# class for orders management
 class OrdersController < ApplicationController
   def index
     render json: { 'index' => 'index page' }
