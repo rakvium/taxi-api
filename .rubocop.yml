@@ -11,10 +11,14 @@ Metrics/ClassLength:
     Max: 200
 
 Lint/AssignmentInCondition:
-    Exclude: 
+    Exclude:
       - 'bin/spring'
 
 AllCops:
     Exclude:
       - 'db/migrate/**'
       - 'db/schema.rb'
+      - 'vendor/**/*'
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
