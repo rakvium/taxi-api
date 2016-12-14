@@ -11,8 +11,8 @@ RSpec.describe OrdersController, type: :controller do
   context 'POST #create' do
     it 'when all parameters is good' do
       expect do
-        post :create, order: FactoryGirl.attributes_for(:order),
-                      client: FactoryGirl.attributes_for(:client)
+        post :create, params: { order: FactoryGirl.attributes_for(:order),
+                                client: FactoryGirl.attributes_for(:client) }
       end.to change(Order, :count).by(1)
     end
   end
