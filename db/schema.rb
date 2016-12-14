@@ -73,13 +73,13 @@ ActiveRecord::Schema.define(version: 20161212181932) do
   create_table "orders", force: :cascade do |t|
     t.integer  "client_id"
     t.integer  "driver_id"
-    t.string   "from",                               null: false
-    t.string   "to",                                 null: false
-    t.string   "state",                              null: false
+    t.string   "from",                                                  null: false
+    t.string   "to",                                                    null: false
+    t.string   "state",                              default: "active", null: false
     t.decimal  "price",      precision: 5, scale: 2
     t.text     "comment"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
     t.index ["client_id"], name: "index_orders_on_client_id", using: :btree
     t.index ["driver_id"], name: "index_orders_on_driver_id", using: :btree
   end
