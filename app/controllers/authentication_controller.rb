@@ -12,9 +12,9 @@ class AuthenticationController < ApplicationController
 
   def payload(user)
     return nil unless user && user.id
-      {
+    {
       auth_token: JsonWebToken.encode(user_id: user.id),
       driver: { id: user.id, phone: user.phone }
-      }
-      end
+    }
   end
+end
