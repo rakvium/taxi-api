@@ -16,6 +16,15 @@ class OrdersController < ApplicationController
     end
   end
 
+  def update
+    order = Order.find(params[:id])
+    order.driver_id = Driver.find(2).id # should be current driver
+    order.state = 'in progress'
+    order.save
+    client_email = Client.find(order.client_id).email
+    ClientMailer.welcome_email(params[:id], client_email).deliver_now if client_email
+  end
+
   private
 
   def check_client_params
