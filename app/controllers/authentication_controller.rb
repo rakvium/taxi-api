@@ -1,3 +1,4 @@
+# Driver authentication
 class AuthenticationController < ApplicationController
   def authenticate_driver
     driver = Driver.find_by(phone: params[:phone])
