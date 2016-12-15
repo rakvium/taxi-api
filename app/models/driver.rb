@@ -3,6 +3,9 @@ class Driver < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   # attr_accessor :phone
+  has_many :orders
+
+  attr_writer :login
 
   attr_writer :login
 

@@ -1,4 +1,6 @@
+# authenticates users
 class AuthenticationController < ApplicationController
+
   def authenticate_driver
     driver = Driver.find_by(phone: params[:phone])
     if driver.try(:valid_password?, params[:password])

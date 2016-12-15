@@ -6,8 +6,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = '2c0b91c09b23a6fabe84e7c1e7fb2ddbc74cc25ca0f7d95b69dc97b57035935143ca346fe99736d50ccac53c14fd1756346ff07623b3193cfef6a34e9c6a4614'
-
+  # config.secret_key = '2' * 128
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -110,7 +109,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 11
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = '6313839e3cb50af806c56d387add431c70bf925c404c8a77e810916b042267912d81fa88c7e9df51879118ac7a7080f995c843774a6a568d1319067e03bd24c8'
+  # config.pepper = '6' * 128
 
   # Send a notification email when the user's password is changed
   # config.send_password_change_notification = false
@@ -138,7 +137,7 @@ Devise.setup do |config|
   config.reconfirmable = true
 
   # Defines which key will be used when confirming an account
-   config.confirmation_keys = [:phone]
+  config.confirmation_keys = [:phone]
   # config.confirmation_keys = [:email]
 
   # ==> Configuration for :rememberable
@@ -242,9 +241,9 @@ Devise.setup do |config|
   # should add them to the navigational formats lists.
   #
   # The "*/*" below is required to match Internet Explorer requests.
-  #config.navigational_formats = [:json]
+  # config.navigational_formats = [:json]
   config.navigational_formats = ['*/*', :json, :html]
-  #config.navigational_formats = ['*/*', :html]
+  # config.navigational_formats = ['*/*', :html]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete

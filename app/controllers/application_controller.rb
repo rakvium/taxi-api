@@ -1,6 +1,10 @@
+# ApplicationController is the only controller that inherits from ActionController::API
+# All other controllers in turn inherit from ApplicationController
 class ApplicationController < ActionController::API
   before_action :configure_permitted_parameters, if: :devise_controller?
+
   before_action :configure_permitted_parameters_admin, if: :devise_controller?
+
   attr_reader :current_user
 
   protected
@@ -52,4 +56,5 @@ class ApplicationController < ActionController::API
     devise_parameter_sanitizer.permit :sign_up, keys: added_attrs
     devise_parameter_sanitizer.permit :account_update, keys: added_attrs
   end
+
 end
