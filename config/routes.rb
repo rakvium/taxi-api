@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   post 'auth_driver' => 'authentication#authenticate_driver'
   post 'auth_admin' => 'admin_authentication#authenticate_admin'
   get 'home' => 'home#index'
-  get 'admin' => 'admin#index'
+  resources :orders, only: [:index, :create]
   devise_for :admins
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
