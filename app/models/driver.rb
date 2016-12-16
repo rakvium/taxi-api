@@ -7,8 +7,6 @@ class Driver < ApplicationRecord
 
   attr_writer :login
 
-  attr_writer :login
-
   devise :database_authenticatable, :recoverable,
          :rememberable, :trackable, :registerable
 
