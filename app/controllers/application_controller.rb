@@ -10,7 +10,7 @@ class ApplicationController < ActionController::API
   protected
 
   def authenticate_request_driver!
-    unless user_id_in_token? # && auth_token[:type] == 'driver'
+    unless user_id_in_token?
       render json: { errors: ['Not Authenticated'] }, status: :unauthorized
       return
     end
@@ -20,8 +20,8 @@ class ApplicationController < ActionController::API
   end
 
   def authenticate_request_admin!
-    unless admin_id_in_token? && auth_token[:type] == 'admin'
-      render json: { errors: ['Nqot Authenticated'] }, status: :unauthorized
+    unless admin_id_in_token?
+      render json: { errors: ['Not Authenticated'] }, status: :unauthorized
       return
     end
     @current_user = Admin.find(auth_token[:user_id])
@@ -46,7 +46,7 @@ class ApplicationController < ActionController::API
   end
 
   def admin_id_in_token?
-    http_token && auth_token && auth_token[:user_id]
+    http_token && auth_token && auth_token[:user_id] && auth_token[:type] == 'admin'
   end
 
   def configure_permitted_parameters
