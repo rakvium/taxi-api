@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :dispatchers
   devise_for :drivers # defaults: { format: :json } # undefined method `flash'
   post 'auth_driver' => 'authentication#authenticate_driver'
   post 'auth_admin' => 'admin_authentication#authenticate_admin'
