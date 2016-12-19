@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe AdminAuthenticationController, type: :controller do
-  context 'POST #payload' do
-    it 'when admin recieve token' do
-      expect do
-        post :payload, params: { auth_token: JsonWebToken.encode(user_id: 1, type: 'admin') }
-      end
+  context 'POST #authenticate_admin' do
+    let(:admin) { create(:admin, email: 'a@a.a', password: '123') }
+    it 'admin recieve token' do
+      post :authenticate_admin, format: :json, params: { email: admin.email, password: admin.password }
+      expect(response).to be_success
     end
   end
 end
