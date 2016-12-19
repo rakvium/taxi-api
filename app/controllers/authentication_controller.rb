@@ -1,9 +1,9 @@
-# authenticates users
+# Driver authenticates
 class AuthenticationController < ApplicationController
-  def authenticate_user
-    user = Driver.find_by(phone: params[:phone])
-    if user.try(:valid_password?, params[:password])
-      render json: payload(user)
+  def authenticate_driver
+    driver = Driver.find_by(phone: params[:phone])
+    if driver.try(:valid_password?, params[:password])
+      render json: payload(driver)
     else
       render json: { errors: ['Invalid Username/Password'] }, status: :unauthorized
     end

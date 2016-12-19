@@ -2,16 +2,29 @@
 # All other controllers in turn inherit from ApplicationController
 class ApplicationController < ActionController::API
   before_action :configure_permitted_parameters, if: :devise_controller?
+
+  before_action :configure_permitted_parameters_admin, if: :devise_controller?
+
   attr_reader :current_user
 
   protected
 
-  def authenticate_request!
+  def authenticate_request_driver!
     unless user_id_in_token?
       render json: { errors: ['Not Authenticated'] }, status: :unauthorized
       return
     end
     @current_user = Driver.find(auth_token[:user_id])
+  rescue JWT::VerificationError, JWT::DecodeError
+    render json: { errors: ['Not Authenticated'] }, status: :unauthorized
+  end
+
+  def authenticate_request_admin!
+    unless admin_id_in_token?
+      render json: { errors: ['Not Authenticated'] }, status: :unauthorized
+      return
+    end
+    @current_user = Admin.find(auth_token[:user_id])
   rescue JWT::VerificationError, JWT::DecodeError
     render json: { errors: ['Not Authenticated'] }, status: :unauthorized
   end
@@ -29,11 +42,21 @@ class ApplicationController < ActionController::API
   end
 
   def user_id_in_token?
-    http_token && auth_token && auth_token[:user_id].to_i
+    http_token && auth_token && auth_token[:user_id]
+  end
+
+  def admin_id_in_token?
+    http_token && auth_token && auth_token[:user_id] && auth_token[:type] == 'admin'
   end
 
   def configure_permitted_parameters
     added_attrs = [:name, :phone, :password, :auto, :status]
+    devise_parameter_sanitizer.permit :sign_up, keys: added_attrs
+    devise_parameter_sanitizer.permit :account_update, keys: added_attrs
+  end
+
+  def configure_permitted_parameters_admin
+    added_attrs = [:name, :email, :password]
     devise_parameter_sanitizer.permit :sign_up, keys: added_attrs
     devise_parameter_sanitizer.permit :account_update, keys: added_attrs
   end
