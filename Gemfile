@@ -26,8 +26,8 @@ group :development, :test do
   gem 'faker', '1.6.6'
   gem 'mailcatcher'
   gem 'pry-rails'
-  gem 'rspec-rails', '~> 3.5'
   gem 'rspec-json_expectations'
+  gem 'rspec-rails', '~> 3.5'
   gem 'rubocop'
 end
 
