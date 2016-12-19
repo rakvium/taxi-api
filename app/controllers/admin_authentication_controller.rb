@@ -5,7 +5,8 @@ class AdminAuthenticationController < ApplicationController
     if admin.try(:valid_password?, params[:password])
       render json: payload(admin)
     else
-      render json: { errors: ['Invalid Username/Password'] }, status: :unauthorized
+      status = admin ? 'Invalid password' : 'Invalid email'
+      render json: { errors: [status] }, status: :unprocessable_entity
     end
   end
 
