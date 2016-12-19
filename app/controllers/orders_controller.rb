@@ -12,7 +12,7 @@ class OrdersController < ApplicationController
     if ord.save
       render json: { 'result' => 'Your order was successfully added. Your id: ' + ord.id.to_s }
     else
-      render json: { 'error' => ord.errors }
+      render json: { 'error' => ord.errors }, status: :unprocessable_entity
     end
   end
 
@@ -29,7 +29,7 @@ class OrdersController < ApplicationController
 
   def check_client_params
     @client = Client.current_client(client_params) # id of client in hash
-    render json: { 'error' => @client.errors } unless @client.errors.empty?
+    render json: { 'error' => @client.errors }, status: :unprocessable_entity unless @client.errors.empty?
   end
 
   def client_params

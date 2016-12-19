@@ -5,7 +5,8 @@ class AuthenticationController < ApplicationController
     if driver.try(:valid_password?, params[:password])
       render json: payload(driver)
     else
-      render json: { errors: ['Invalid Username/Password'] }, status: :unauthorized
+      status = driver ? 'Invalid password' : 'Invalid phone'
+      render json: { errors: [status] }, status: :unprocessable_entity
     end
   end
 
