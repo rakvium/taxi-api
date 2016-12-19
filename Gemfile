@@ -27,6 +27,7 @@ group :development, :test do
   gem 'mailcatcher'
   gem 'pry-rails'
   gem 'rspec-rails', '~> 3.5'
+  gem 'rspec-json_expectations'
   gem 'rubocop'
 end
 
