@@ -2,7 +2,6 @@
 # All other controllers in turn inherit from ApplicationController
 class ApplicationController < ActionController::API
   before_action :configure_permitted_parameters, if: :devise_controller?
-  # protect_from_forgery with: :null_session
   attr_reader :current_user
 
   protected
