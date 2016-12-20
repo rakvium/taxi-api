@@ -19,18 +19,14 @@ RSpec.describe DispatchersController, type: :controller do
       subject[:password] = ''
       post :create, params: subject
       expect(response.status).to eq 422
-      expect(JSON.parse(response.body)).to include_json(
-        errors: ['Invalid password']
-      )
+      expect(JSON.parse(response.body)).to include_json(errors: ['Invalid password'])
     end
 
     it 'when wrong email' do
       subject[:email] = ''
       post :create, params: subject
       expect(response.status).to eq 422
-       expect(JSON.parse(response.body)).to include_json(
-        errors: ['Invalid email']
-      )
+      expect(JSON.parse(response.body)).to include_json(errors: ['Invalid email'])
     end
   end
 end
