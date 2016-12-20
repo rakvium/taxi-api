@@ -12,7 +12,7 @@ RSpec.describe OrdersController, type: :controller do
     let(:order) { FactoryGirl.attributes_for(:order) }
     let(:client) { FactoryGirl.attributes_for(:client) }
 
-    it 'when all parameters is good' do
+    it 'when all parameters are good' do
       expect do
         post :create, params: { order: order, client: client }
       end.to change(Order, :count).by(1)

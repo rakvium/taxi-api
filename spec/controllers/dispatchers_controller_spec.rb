@@ -6,7 +6,7 @@ RSpec.describe DispatchersController, type: :controller do
     subject { FactoryGirl.attributes_for(:dispatcher) }
     let!(:disp) { Dispatcher.create subject }
 
-    it 'when all parameters is good' do
+    it 'when all parameters are good' do
       post :create, params: subject
       expect(response.status).to eq 200
       expect(JSON.parse(response.body)).to include_json(
