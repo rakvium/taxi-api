@@ -3,7 +3,7 @@ class DispatchersController < ApplicationController
   before_action :authenticate_request_dispatcher!, only: [:index]
 
   def index
-    render json: { 'logged_in' => true }
+    render json: { 'orders' => Order.where(state: 'in progress') }
   end
 
   # for auth dispatcher. Instead of new controller
