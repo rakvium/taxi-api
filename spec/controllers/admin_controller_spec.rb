@@ -8,7 +8,7 @@ RSpec.describe AdminController, type: :controller do
     end
     it 'can create admin ' do
       current_admin = Admin.create FactoryGirl.attributes_for(:admin)
-      token = JsonWebToken.encode(user_id: current_admin.id, type: 'admin')
+      token = JsonWebToken.encode(user_id: current_admin.id, type: 'Admin')
       request.headers['Authorization'] = token
       post :create_admin, format: :json, params: { admin: {
         name: 'admin',
@@ -28,7 +28,7 @@ RSpec.describe AdminController, type: :controller do
 
     it 'can create dispatcher' do
       current_admin = Admin.create FactoryGirl.attributes_for(:admin)
-      token = JsonWebToken.encode(user_id: current_admin.id, type: 'admin')
+      token = JsonWebToken.encode(user_id: current_admin.id, type: 'Admin')
       request.headers['Authorization'] = token
       post :create_dispatcher, format: :json, params: { dispatcher: {
         name: 'dispatcher',
@@ -51,7 +51,7 @@ RSpec.describe AdminController, type: :controller do
     end
     it 'can create driver' do
       current_admin = Admin.create FactoryGirl.attributes_for(:admin)
-      token = JsonWebToken.encode(user_id: current_admin.id, type: 'admin')
+      token = JsonWebToken.encode(user_id: current_admin.id, type: 'Admin')
       request.headers['Authorization'] = token
       post :create_driver, format: :json, params: { driver: {
         name: 'vasya',
@@ -66,7 +66,7 @@ RSpec.describe AdminController, type: :controller do
   context 'GET #index' do
     it 'when logged in as admin' do
       admin = Admin.create FactoryGirl.attributes_for(:admin)
-      token = JsonWebToken.encode(user_id: admin.id, type: 'admin')
+      token = JsonWebToken.encode(user_id: admin.id, type: 'Admin')
       request.headers['Authorization'] = token
       get :index, format: :json
       expect(JSON.parse(response.body)).to include_json('logged_in' => true)

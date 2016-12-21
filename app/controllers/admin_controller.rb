@@ -1,6 +1,6 @@
 # admin controller
 class AdminController < ApplicationController
-  before_action :authenticate_request_admin!
+  before_action :authenticate_request!
 
   def index
     render json: { 'logged_in' => true }

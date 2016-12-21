@@ -1,16 +1,16 @@
 require 'rails_helper'
 
-RSpec.describe DispatchersController, type: :controller do
+RSpec.describe DriversController, type: :controller do
   context 'POST #create' do
-    subject { FactoryGirl.attributes_for(:dispatcher) }
-    let!(:dispatcher) { Dispatcher.create subject }
+    subject { FactoryGirl.attributes_for(:driver) }
+    let!(:driver) { Driver.create subject }
 
     it 'when all parameters are good' do
       post :create, params: subject
       expect(response.status).to eq 200
       expect(JSON.parse(response.body)).to include_json(
-        auth_token: JsonWebToken.encode(user_id: dispatcher[:id], type: 'Dispatcher'),
-        dispatcher: { id: dispatcher[:id], email: dispatcher[:email], type: 'Dispatcher' }
+        auth_token: JsonWebToken.encode(user_id: driver[:id], type: 'Driver'),
+        driver: { id: driver[:id], phone: driver[:phone], type: 'Driver' }
       )
     end
 
@@ -21,11 +21,11 @@ RSpec.describe DispatchersController, type: :controller do
       expect(JSON.parse(response.body)).to include_json(errors: ['Invalid password'])
     end
 
-    it 'when wrong email' do
-      subject[:email] = ''
+    it 'when wrong phone' do
+      subject[:phone] = ''
       post :create, params: subject
       expect(response.status).to eq 422
-      expect(JSON.parse(response.body)).to include_json(errors: ['Invalid email'])
+      expect(JSON.parse(response.body)).to include_json(errors: ['Invalid phone'])
     end
   end
 end
