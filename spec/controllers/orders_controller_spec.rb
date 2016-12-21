@@ -1,10 +1,38 @@
 require 'rails_helper'
 
+require 'rspec/json_expectations'
 RSpec.describe OrdersController, type: :controller do
   context 'GET #index' do
-    it 'should be good' do
-      get :index, format: :json
-      expect(response).to be_success
+    it 'when not logged in' do
+      get :index
+      expect(response).to have_http_status(401)
+    end
+
+    it 'when logged in as driver' do
+      driver = Driver.create FactoryGirl.attributes_for(:driver)
+      token = JsonWebToken.encode(user_id: driver.id, type: 'Driver')
+      request.headers['Authorization'] = token
+      get :index
+      expect(response).to have_http_status(200)
+      expect(JSON.parse(response.body)).to include_json(orders: [])
+    end
+
+    it 'when logged in as admin' do
+      admin = Admin.create FactoryGirl.attributes_for(:admin)
+      token = JsonWebToken.encode(user_id: admin.id, type: 'Admin')
+      request.headers['Authorization'] = token
+      get :index
+      expect(response).to have_http_status(200)
+      expect(JSON.parse(response.body)).to include_json(orders: [])
+    end
+
+    it 'when logged in as dispatcher' do
+      dispatcher = Dispatcher.create FactoryGirl.attributes_for(:dispatcher)
+      token = JsonWebToken.encode(user_id: dispatcher.id, type: 'Dispatcher')
+      request.headers['Authorization'] = token
+      get :index
+      expect(response).to have_http_status(200)
+      expect(JSON.parse(response.body)).to include_json(orders: [])
     end
   end
 

@@ -4,4 +4,8 @@ class Admin < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable
+
+  def show_order_list
+    Order.all
+  end
 end

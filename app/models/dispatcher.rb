@@ -5,4 +5,8 @@ class Dispatcher < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   validates :name, presence: true
+
+  def show_order_list
+    Order.where(state: 'in progress')
+  end
 end

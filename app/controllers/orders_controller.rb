@@ -1,9 +1,10 @@
 # class for orders management
 class OrdersController < ApplicationController
   before_action :check_client_params, only: [:create]
+  before_action :authenticate_request!, only: [:index]
 
   def index
-    render json: { 'index' => 'index page' }
+    render json: { 'orders' => @current_user.show_order_list }
   end
 
   # here i should create order from params

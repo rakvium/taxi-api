@@ -10,6 +10,10 @@ class Driver < ApplicationRecord
   devise :database_authenticatable, :recoverable,
          :rememberable, :trackable, :registerable
 
+  def show_order_list
+    Order.where(state: 'active')
+  end
+
   def email_required?
     false
   end

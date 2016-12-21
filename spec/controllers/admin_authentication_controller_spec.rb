@@ -7,8 +7,8 @@ RSpec.describe AdminAuthenticationController, type: :controller do
     subject { post :authenticate_admin, format: :json, params: { email: admin.email, password: admin.password } }
     it 'admin receive token' do
       expect(JSON.parse(subject.body)).to include_json(
-        auth_token: JsonWebToken.encode(user_id: admin.id, type: 'admin'),
-        admin: { id: admin.id, email: admin.email, type: 'admin' }
+        auth_token: JsonWebToken.encode(user_id: admin.id, type: 'Admin'),
+        admin: { id: admin.id, email: admin.email, type: 'Admin' }
       )
     end
   end

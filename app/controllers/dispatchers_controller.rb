@@ -1,9 +1,7 @@
 # Dispatcher controller
 class DispatchersController < ApplicationController
-  before_action :authenticate_request_dispatcher!, only: [:index]
-
   def index
-    render json: { 'logged_in' => true }
+    # render json: { 'logged_in' => true }
   end
 
   # for auth dispatcher. Instead of new controller
@@ -22,8 +20,8 @@ class DispatchersController < ApplicationController
   def payload(user)
     return nil unless user && user.id
     {
-      auth_token: JsonWebToken.encode(user_id: user.id, type: 'dispatcher'),
-      dispatcher: { id: user.id, email: user.email, type: 'dispatcher' }
+      auth_token: JsonWebToken.encode(user_id: user.id, type: 'Dispatcher'),
+      dispatcher: { id: user.id, email: user.email, type: 'Dispatcher' }
     }
   end
 end

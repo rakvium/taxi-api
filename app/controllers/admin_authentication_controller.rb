@@ -15,8 +15,8 @@ class AdminAuthenticationController < ApplicationController
   def payload(user)
     return nil unless user && user.id
     {
-      auth_token: JsonWebToken.encode(user_id: user.id, type: 'admin'),
-      admin: { id: user.id, email: user.email, type: 'admin' }
+      auth_token: JsonWebToken.encode(user_id: user.id, type: 'Admin'),
+      admin: { id: user.id, email: user.email, type: 'Admin' }
     }
   end
 end
