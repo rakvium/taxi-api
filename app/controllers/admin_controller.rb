@@ -11,7 +11,7 @@ class AdminController < ApplicationController
     if admin.save
       render json: { name: admin.name, email: admin.email }
     else
-      render json: { 'error' => admin.error }
+      render json: { 'error' => admin.errors }
     end
   end
 
@@ -20,7 +20,7 @@ class AdminController < ApplicationController
     if driver.save
       render json: { name: driver.name, phone: driver.phone, auto: driver.auto }
     else
-      render json: { 'error' => driver.error }
+      render json: { 'error' => driver.errors }
     end
   end
 
@@ -29,7 +29,7 @@ class AdminController < ApplicationController
     if dispatcher.save
       render json: { name: dispatcher.name, email: dispatcher.email }
     else
-      render json: { 'error' => dispatcher.error }
+      render json: { 'error' => dispatcher.errors }
     end
   end
 
