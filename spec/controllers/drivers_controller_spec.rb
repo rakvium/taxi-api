@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-require 'rspec/json_expectations'
 RSpec.describe DriversController, type: :controller do
   context 'POST #create' do
     subject { FactoryGirl.attributes_for(:driver) }

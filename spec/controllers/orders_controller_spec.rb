@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-require 'rspec/json_expectations'
 RSpec.describe OrdersController, type: :controller do
   context 'GET #index' do
     it 'when not logged in' do

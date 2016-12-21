@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-require 'rspec/json_expectations'
 RSpec.describe AdminAuthenticationController, type: :controller do
   context 'POST #authenticate_admin' do
     let(:admin) { create(:admin, email: 'a@a.a', password: '123') }
