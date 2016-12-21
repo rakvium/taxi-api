@@ -4,14 +4,14 @@ require 'rspec/json_expectations'
 RSpec.describe DispatchersController, type: :controller do
   context 'POST #create' do
     subject { FactoryGirl.attributes_for(:dispatcher) }
-    let!(:disp) { Dispatcher.create subject }
+    let!(:dispatcher) { Dispatcher.create subject }
 
     it 'when all parameters are good' do
       post :create, params: subject
       expect(response.status).to eq 200
       expect(JSON.parse(response.body)).to include_json(
-        auth_token: JsonWebToken.encode(user_id: disp[:id], type: 'Dispatcher'),
-        dispatcher: { id: disp[:id], email: disp[:email], type: 'Dispatcher' }
+        auth_token: JsonWebToken.encode(user_id: dispatcher[:id], type: 'Dispatcher'),
+        dispatcher: { id: dispatcher[:id], email: dispatcher[:email], type: 'Dispatcher' }
       )
     end
 
