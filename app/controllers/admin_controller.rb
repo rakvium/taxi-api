@@ -33,6 +33,60 @@ class AdminController < ApplicationController
     end
   end
 
+  def edit_admin
+    admin = Admin.find(params[:id])
+    if admin.update_attributes(params_admin)
+      render json: { 'The admin is successfully updated!' => { name: admin.name, email: admin.email } }
+    else
+      render json: { 'error' => admin.errors }
+    end
+  end
+
+  def edit_driver
+    driver = Driver.find(params[:id])
+    if driver.update_attributes(params_driver)
+      render json: { 'The driver is successfully updated!' => { name: driver.name, phone: driver.phone } }
+    else
+      render json: { 'error' => driver.errors }
+    end
+  end
+
+  def edit_dispatcher
+    dispatcher = Admin.find(params[:id])
+    if dispatcher.update_attributes(params_dispatcher)
+      render json: { 'The dispatcher is successfully updated!' => { name: dispatcher.name, email: dispatcher.email } }
+    else
+      render json: { 'error' => dispatcher.errors }
+    end
+  end
+
+  def destroy_admin
+    admin = Admin.find(params[:id])
+    if admin.destroy
+      render json: { 'The admin is successfully destroyed!' => true }
+    else
+      render json: { 'error' => admin.errors }
+    end
+  end
+
+  def destroy_driver
+    driver = Driver.find(params[:id])
+    if driver.destroy
+      render json: { 'The driver is successfully destroyed!' => true }
+    else
+      render json: { 'error' => driver.errors }
+    end
+  end
+
+  def destroy_dispatcher
+    dispatcher = Dispatcher.find(params[:id])
+    if dispatcher.destroy
+      render json: { 'The dispatcher is successfully destroyed!' => true }
+    else
+      render json: { 'error' => dispatcher.errors }
+    end
+  end
+
   private
 
   def params_admin
