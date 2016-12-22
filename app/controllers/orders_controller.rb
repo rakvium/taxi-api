@@ -9,11 +9,11 @@ class OrdersController < ApplicationController
 
   # here i should create order from params
   def create
-    ord = Order.new(order_params(@client.id))
-    if ord.save
-      render json: { 'result' => 'Your order was successfully added. Your id: ' + ord.id.to_s }
+    order = Order.new(order_params(@client.id))
+    if order.save
+      render json: { 'result' => order }
     else
-      render json: { 'error' => ord.errors }, status: :unprocessable_entity
+      render json: { 'error' => order.errors }, status: :unprocessable_entity
     end
   end
 
@@ -27,7 +27,7 @@ class OrdersController < ApplicationController
     order.driver_id = @current_user.id
     order.state = 'in progress'
     order.save
-    render json: { 'current_order' => order.id }
+    render json: { 'current_order' => order }
     send_email_to_client(order.id, order.client_id)
   end
 
@@ -38,7 +38,7 @@ class OrdersController < ApplicationController
     order = Order.find(params[:id])
     order.state = 'canceled'
     order.save
-    render json: { 'current_order' => 'You have canceled order with id ' + order.id.to_s }
+    render json: { 'current_order' => order }
   end
 
   private

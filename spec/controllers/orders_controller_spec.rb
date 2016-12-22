@@ -112,7 +112,7 @@ RSpec.describe OrdersController, type: :controller do
         request.headers['Authorization'] = token
         put :update, params: { id: @order.id }
         expect(response).to have_http_status(200)
-        expect(JSON.parse(response.body)).to include_json('current_order': @order.id)
+        expect(JSON.parse(response.body)).to include_json(current_order: [])
         expect(Order.find(@order.id).state).to eq 'in progress'
       end
     end
@@ -140,9 +140,7 @@ RSpec.describe OrdersController, type: :controller do
         request.headers['Authorization'] = token
         put :cancel, params: { id: @order.id }
         expect(response).to have_http_status(200)
-        expect(JSON.parse(response.body)).to include_json(
-          'current_order' => 'You have canceled order with id ' + @order.id.to_s
-        )
+        expect(JSON.parse(response.body)).to include_json(current_order: [])
         expect(Order.find(@order.id).state).to eq 'canceled'
       end
     end
