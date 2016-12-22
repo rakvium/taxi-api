@@ -93,7 +93,7 @@ RSpec.describe OrdersController, type: :controller do
       request.headers['Authorization'] = token
       put :update, params: { id: @order.id }
       expect(response).to have_http_status(200)
-      expect(JSON.parse(response.body)).to include_json('current order': @order.id)
+      expect(JSON.parse(response.body)).to include_json('current_order': @order.id)
       expect(Order.find(@order.id).state).to eq 'in progress'
     end
 
