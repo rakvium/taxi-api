@@ -1,7 +1,7 @@
 # class for orders management
 class OrdersController < ApplicationController
   before_action :check_client_params, only: [:create]
-  before_action :authenticate_request!, only: [:index]
+  before_action :authenticate_request!, only: [:index, :show, :update]
 
   def index
     render json: { 'orders' => @current_user.show_order_list }
@@ -17,11 +17,17 @@ class OrdersController < ApplicationController
     end
   end
 
+  def show
+    render json: { 'order' => Order.find(params[:id]) }
+  end
+
   def update
+    return render json: { 'error' => 'You are not a driver' }, status: 422 unless @current_user.instance_of? Driver
     order = Order.find(params[:id])
-    order.driver_id = Driver.find(2).id # should be current driver
+    order.driver_id = @current_user.id
     order.state = 'in progress'
     order.save
+    render json: { 'current order' => order.id }
     client_email = Client.find(order.client_id).email
     ClientMailer.welcome_email(params[:id], client_email).deliver_now if client_email
   end

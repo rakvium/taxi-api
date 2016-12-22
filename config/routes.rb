@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   post 'create_dispatcher' => 'admin#create_dispatcher'
   get 'home' => 'home#index'
   get 'admin' => 'admin#index'
-  resources :orders, only: [:index, :create, :update]
+  resources :orders, only: [:index, :create, :update, :show]
   resources :dispatchers, only: [:index, :create]
   resources :drivers, only: [:index, :create]
   # devise_for :admins

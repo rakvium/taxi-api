@@ -57,4 +57,50 @@ RSpec.describe OrdersController, type: :controller do
       expect(response).to have_http_status(:unprocessable_entity)
     end
   end
+
+  context 'GET #show' do
+    let!(:client) { Client.create FactoryGirl.attributes_for(:client) }
+    let!(:driver) { Driver.create FactoryGirl.attributes_for(:driver) }
+    before :each do
+      params = {"client_id" => client.id}.merge(FactoryGirl.attributes_for(:order))
+      @order = Order.create params
+    end
+
+
+    it 'when logged in' do
+      token = JsonWebToken.encode(user_id: driver.id, type: 'Driver')
+      request.headers['Authorization'] = token
+      get :show, params: { id: @order.id }
+      expect(response).to have_http_status(200)
+      expect(JSON.parse(response.body)).to include_json(order: [])
+    end
+
+    it 'when not logged in' do
+      get :show, params: { id: @order.id }
+      expect(response).to have_http_status(401)
+    end
+  end
+
+  context 'PATCH #update' do
+    let!(:client) { Client.create FactoryGirl.attributes_for(:client) }
+    let!(:driver) { Driver.create FactoryGirl.attributes_for(:driver) }
+    before :each do
+      params = {"client_id" => client.id}.merge(FactoryGirl.attributes_for(:order))
+      @order = Order.create params
+    end
+
+    it 'when logged in as driver' do
+      token = JsonWebToken.encode(user_id: driver.id, type: 'Driver')
+      request.headers['Authorization'] = token
+      put :update, params: { id: @order.id }
+      expect(response).to have_http_status(200)
+      expect(JSON.parse(response.body)).to include_json("current order" => @order.id)
+      expect(Order.find(@order.id).state).to eq 'in progress'
+    end
+
+    it 'when not logged in' do
+      put :update, params: { id: @order.id }
+      expect(response).to have_http_status(401)
+    end
+  end
 end
