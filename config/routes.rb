@@ -4,8 +4,10 @@ Rails.application.routes.draw do
   post 'create_driver' => 'admin#create_driver'
   post 'create_dispatcher' => 'admin#create_dispatcher'
   get 'admin' => 'admin#index'
-  resources :orders, only: [:index, :create, :update] do
-    put 'cancel/:id', on: :collection, to: 'orders#cancel'
+  resources :orders, only: [:index, :create, :update, :show] do
+    member do
+      put 'cancel'
+    end
   end
   resources :dispatchers, only: [:index, :create]
   resources :drivers, only: [:index, :create]
