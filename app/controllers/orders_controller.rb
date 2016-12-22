@@ -28,11 +28,15 @@ class OrdersController < ApplicationController
     order.state = 'in progress'
     order.save
     render json: { 'current order' => order.id }
-    client_email = Client.find(order.client_id).email
-    ClientMailer.welcome_email(params[:id], client_email).deliver_now if client_email
+    send_email_to_client(order.id, order.client_id)
   end
 
   private
+
+  def send_email_to_client(order_id, client_id)
+    client_email = Client.find(client_id).email
+    ClientMailer.welcome_email(order_id, client_email).deliver_now if client_email
+  end
 
   def check_client_params
     @client = Client.current_client(client_params) # id of client in hash

@@ -62,10 +62,9 @@ RSpec.describe OrdersController, type: :controller do
     let!(:client) { Client.create FactoryGirl.attributes_for(:client) }
     let!(:driver) { Driver.create FactoryGirl.attributes_for(:driver) }
     before :each do
-      params = {"client_id" => client.id}.merge(FactoryGirl.attributes_for(:order))
+      params = { client_id: client.id }.merge(FactoryGirl.attributes_for(:order))
       @order = Order.create params
     end
-
 
     it 'when logged in' do
       token = JsonWebToken.encode(user_id: driver.id, type: 'Driver')
@@ -85,7 +84,7 @@ RSpec.describe OrdersController, type: :controller do
     let!(:client) { Client.create FactoryGirl.attributes_for(:client) }
     let!(:driver) { Driver.create FactoryGirl.attributes_for(:driver) }
     before :each do
-      params = {"client_id" => client.id}.merge(FactoryGirl.attributes_for(:order))
+      params = { client_id: client.id }.merge(FactoryGirl.attributes_for(:order))
       @order = Order.create params
     end
 
@@ -94,7 +93,7 @@ RSpec.describe OrdersController, type: :controller do
       request.headers['Authorization'] = token
       put :update, params: { id: @order.id }
       expect(response).to have_http_status(200)
-      expect(JSON.parse(response.body)).to include_json("current order" => @order.id)
+      expect(JSON.parse(response.body)).to include_json('current order': @order.id)
       expect(Order.find(@order.id).state).to eq 'in progress'
     end
 
