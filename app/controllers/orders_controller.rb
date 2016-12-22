@@ -26,6 +26,11 @@ class OrdersController < ApplicationController
     ClientMailer.welcome_email(params[:id], client_email).deliver_now if client_email
   end
 
+  def cancel
+    return render json: { 'error' => 'You are not a driver' }, status: 422 if @current_user.try(:instance_of?, Driver)
+    render json: { 'output' => 'Yeah' }
+  end
+
   private
 
   def check_client_params
