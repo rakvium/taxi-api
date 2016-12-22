@@ -1,7 +1,7 @@
 # class for orders management
 class OrdersController < ApplicationController
   before_action :check_client_params, only: [:create]
-  before_action :authenticate_request!, only: [:index]
+  before_action :authenticate_request!, only: [:index, :cancel]
 
   def index
     render json: { 'orders' => @current_user.show_order_list }
@@ -27,8 +27,12 @@ class OrdersController < ApplicationController
   end
 
   def cancel
-    return render json: { 'error' => 'You are not a driver' }, status: 422 if @current_user.try(:instance_of?, Driver)
-    render json: { 'output' => 'Yeah' }
+    if @current_user.try(:instance_of?, Driver)
+      return render json: { 'error' => "You are not allowed" }, status: 422
+    end
+    order = Order.find(params[:id])
+    order.state = 'canceled'
+    order.save
   end
 
   private
