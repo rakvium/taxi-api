@@ -18,7 +18,9 @@ class OrdersController < ApplicationController
   end
 
   def show
-    render json: { 'order' => Order.find(params[:id]) }
+    order = Order.find(params[:id])
+    client_phone = { 'client_phone' => Client.find(order.client_id).phone }
+    render json: { 'order' => order.attributes.merge(client_phone) }
   end
 
   def update
