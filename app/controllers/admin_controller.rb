@@ -6,7 +6,7 @@ class AdminController < ApplicationController
     render json: { 'logged_in' => true }
   end
 
-  def create_admin
+  def create
     admin = Admin.new(params_admin)
     if admin.save
       render json: { name: admin.name, email: admin.email }
@@ -33,7 +33,19 @@ class AdminController < ApplicationController
     end
   end
 
-  def edit_admin
+  def show
+    render json: Admin.find(params[:id])
+  end
+
+  def show_driver
+    render json: Driver.find(params[:id])
+  end
+
+  def show_dispatcher
+    render json: Dispatcher.find(params[:id])
+  end
+
+  def update
     admin = Admin.find(params[:id])
     if admin.update_attributes(params_admin)
       render json:  admin
@@ -52,7 +64,7 @@ class AdminController < ApplicationController
   end
 
   def edit_dispatcher
-    dispatcher = Admin.find(params[:id])
+    dispatcher = Dispatcher.find(params[:id])
     if dispatcher.update_attributes(params_dispatcher)
       render json: dispatcher
     else
@@ -60,7 +72,7 @@ class AdminController < ApplicationController
     end
   end
 
-  def destroy_admin
+  def destroy
     admin = Admin.find(params[:id])
     if admin.destroy
       render json: { 'The admin is successfully destroyed!' => true }
@@ -87,11 +99,11 @@ class AdminController < ApplicationController
     end
   end
 
+  private
+
   def current_user_admin
     return render json: { 'error' => 'You are not a admin' }, status: 422 unless @current_user.instance_of? Admin
   end
-
-  private
 
   def params_admin
     params.require(:admin).permit(:name, :email, :password, :password_confirmation)
