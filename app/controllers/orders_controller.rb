@@ -27,7 +27,7 @@ class OrdersController < ApplicationController
     order.driver_id = @current_user.id
     order.state = 'in progress'
     order.save
-    render json: { 'current order' => order.id }
+    render json: { 'current_order' => order.id }
     send_email_to_client(order.id, order.client_id)
   end
 
