@@ -10,8 +10,9 @@ RSpec.describe OrdersController, type: :controller do
     end
 
     context 'when logged in as driver' do
+      let(:driver) { Driver.create FactoryGirl.attributes_for(:driver) }
+
       it 'should return list of orders' do
-        driver = Driver.create FactoryGirl.attributes_for(:driver)
         token = JsonWebToken.encode(user_id: driver.id, type: 'Driver')
         request.headers['Authorization'] = token
         get :index
@@ -21,8 +22,9 @@ RSpec.describe OrdersController, type: :controller do
     end
 
     context 'when logged in as admin' do
+      let(:admin) { Admin.create FactoryGirl.attributes_for(:admin) }
+
       it 'should return list of orders' do
-        admin = Admin.create FactoryGirl.attributes_for(:admin)
         token = JsonWebToken.encode(user_id: admin.id, type: 'Admin')
         request.headers['Authorization'] = token
         get :index
@@ -32,8 +34,9 @@ RSpec.describe OrdersController, type: :controller do
     end
 
     context 'when logged in as dispatcher' do
+      let(:dispatcher) { Dispatcher.create FactoryGirl.attributes_for(:dispatcher) }
+
       it 'should return list of orders' do
-        dispatcher = Dispatcher.create FactoryGirl.attributes_for(:dispatcher)
         token = JsonWebToken.encode(user_id: dispatcher.id, type: 'Dispatcher')
         request.headers['Authorization'] = token
         get :index
@@ -150,7 +153,7 @@ RSpec.describe OrdersController, type: :controller do
         token = JsonWebToken.encode(user_id: driver.id, type: 'Driver')
         request.headers['Authorization'] = token
         put :cancel, params: { id: @order.id }
-        expect(response).to have_http_status(422)
+        expect(response).to have_http_status(403)
       end
     end
 

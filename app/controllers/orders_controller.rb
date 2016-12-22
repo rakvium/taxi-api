@@ -35,7 +35,7 @@ class OrdersController < ApplicationController
 
   def cancel
     if @current_user.try(:instance_of?, Driver)
-      return render json: { 'error' => 'You are not allowed' }, status: 422
+      return render json: { 'error' => 'You are not allowed  to cancel an order' }, status: 403
     end
     order = Order.find(params[:id])
     order.state = 'canceled'
