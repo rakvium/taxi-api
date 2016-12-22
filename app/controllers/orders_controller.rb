@@ -1,7 +1,7 @@
 # class for orders management
 class OrdersController < ApplicationController
   before_action :check_client_params, only: [:create]
-  before_action :authenticate_request!, only: [:index, :show, :update]
+  before_action :authenticate_request!, only: [:index, :show, :update, :cancel]
 
   def index
     render json: { 'orders' => @current_user.show_order_list }
@@ -9,16 +9,18 @@ class OrdersController < ApplicationController
 
   # here i should create order from params
   def create
-    ord = Order.new(order_params(@client.id))
-    if ord.save
-      render json: { 'result' => 'Your order was successfully added. Your id: ' + ord.id.to_s }
+    order = Order.new(order_params(@client.id))
+    if order.save
+      render json: { 'result' => order }
     else
-      render json: { 'error' => ord.errors }, status: :unprocessable_entity
+      render json: { 'error' => order.errors }, status: :unprocessable_entity
     end
   end
 
   def show
-    render json: { 'order' => Order.find(params[:id]) }
+    order = Order.find(params[:id])
+    client_phone = { 'client_phone' => Client.find(order.client_id).phone }
+    render json: { 'order' => order.attributes.merge(client_phone) }
   end
 
   def update
@@ -27,8 +29,18 @@ class OrdersController < ApplicationController
     order.driver_id = @current_user.id
     order.state = 'in progress'
     order.save
-    render json: { 'current_order' => order.id }
+    render json: { 'current_order' => order }
     send_email_to_client(order.id, order.client_id)
+  end
+
+  def cancel
+    if @current_user.try(:instance_of?, Driver)
+      return render json: { 'error' => 'You are not allowed  to cancel an order' }, status: 403
+    end
+    order = Order.find(params[:id])
+    order.state = 'canceled'
+    order.save
+    render json: { 'current_order' => order }
   end
 
   private
