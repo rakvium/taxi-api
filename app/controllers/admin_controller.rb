@@ -1,7 +1,7 @@
 # admin controller
 class AdminController < ApplicationController
   before_action :authenticate_request!
-
+  before_action :current_user_admin
   def index
     render json: { 'logged_in' => true }
   end
@@ -36,7 +36,7 @@ class AdminController < ApplicationController
   def edit_admin
     admin = Admin.find(params[:id])
     if admin.update_attributes(params_admin)
-      render json: { 'The admin is successfully updated!' => { name: admin.name, email: admin.email } }
+      render json:  admin
     else
       render json: { 'error' => admin.errors }
     end
@@ -45,7 +45,7 @@ class AdminController < ApplicationController
   def edit_driver
     driver = Driver.find(params[:id])
     if driver.update_attributes(params_driver)
-      render json: { 'The driver is successfully updated!' => { name: driver.name, phone: driver.phone } }
+      render json: driver
     else
       render json: { 'error' => driver.errors }
     end
@@ -54,7 +54,7 @@ class AdminController < ApplicationController
   def edit_dispatcher
     dispatcher = Admin.find(params[:id])
     if dispatcher.update_attributes(params_dispatcher)
-      render json: { 'The dispatcher is successfully updated!' => { name: dispatcher.name, email: dispatcher.email } }
+      render json: dispatcher
     else
       render json: { 'error' => dispatcher.errors }
     end
@@ -85,6 +85,10 @@ class AdminController < ApplicationController
     else
       render json: { 'error' => dispatcher.errors }
     end
+  end
+
+  def current_user_admin
+    return render json: { 'error' => 'You are not a admin' }, status: 422 unless @current_user.instance_of? Admin
   end
 
   private
