@@ -9,8 +9,8 @@ Rails.application.routes.draw do
     collection do
       post 'create_driver'
       post 'create_dispatcher'
-      post 'show_driver'
-      post 'show_dispatcher'
+      get 'show_driver'
+      get 'show_dispatcher'
       post 'update_driver'
       post 'update_dispatcher'
       post 'destroy_driver'

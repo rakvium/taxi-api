@@ -54,7 +54,7 @@ class AdminController < ApplicationController
     end
   end
 
-  def edit_driver
+  def update_driver
     driver = Driver.find(params[:id])
     if driver.update_attributes(params_driver)
       render json: driver
@@ -63,7 +63,7 @@ class AdminController < ApplicationController
     end
   end
 
-  def edit_dispatcher
+  def update_dispatcher
     dispatcher = Dispatcher.find(params[:id])
     if dispatcher.update_attributes(params_dispatcher)
       render json: dispatcher
