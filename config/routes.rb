@@ -14,7 +14,8 @@ Rails.application.routes.draw do
   end
   resources :orders, only: [:index, :create, :update, :show] do
     member do
-      put 'cancel'
+      patch 'cancel'
+      patch 'apply'
     end
   end
   resources :dispatchers, only: [:index, :create]
