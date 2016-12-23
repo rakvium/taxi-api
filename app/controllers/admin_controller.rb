@@ -4,10 +4,6 @@ class AdminController < ApplicationController
   before_action :current_user_admin
 
   def index
-    render json: { 'logged_in' => true }
-  end
-
-  def index_admin
     render json: Admin.all
   end
 
