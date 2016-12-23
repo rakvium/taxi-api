@@ -3,7 +3,6 @@ class AdminController < ApplicationController
   before_action :authenticate_request!
   before_action :current_user_admin
 
-
   def index
     render json: { 'logged_in' => true }
   end
