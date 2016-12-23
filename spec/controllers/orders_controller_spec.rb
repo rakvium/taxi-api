@@ -103,6 +103,42 @@ RSpec.describe OrdersController, type: :controller do
 
   describe 'PATCH #update' do
     let(:client) { Client.create FactoryGirl.attributes_for(:client) }
+    let(:dispatcher) { Dispatcher.create FactoryGirl.attributes_for(:dispatcher) }
+    let(:driver) { Driver.create FactoryGirl.attributes_for(:driver) }
+    before :each do
+      params = { client_id: client.id }.merge(FactoryGirl.attributes_for(:order))
+      @order = Order.create params
+    end
+
+    context 'when logged in as driver' do
+      it 'should return 403' do
+        token = JsonWebToken.encode(user_id: driver.id, type: 'Driver')
+        request.headers['Authorization'] = token
+        patch :update, params: { id: @order.id }
+        expect(response).to have_http_status(403)
+      end
+    end
+
+    context 'when logged in as dispatcher' do
+      it 'should change order' do
+        token = JsonWebToken.encode(user_id: dispatcher.id, type: 'Dispatcher')
+        request.headers['Authorization'] = token
+        patch :update, params: { id: @order.id, order: FactoryGirl.attributes_for(:order) }
+        expect(response).to have_http_status(200)
+        expect(JSON.parse(response.body)).to include_json(current_order: [])
+      end
+    end
+
+    context 'when not logged in' do
+      it 'should return 401' do
+        patch :update, params: { id: @order.id }
+        expect(response).to have_http_status(401)
+      end
+    end
+  end
+
+  describe 'PATCH #apply' do
+    let(:client) { Client.create FactoryGirl.attributes_for(:client) }
     let(:driver) { Driver.create FactoryGirl.attributes_for(:driver) }
     before :each do
       params = { client_id: client.id }.merge(FactoryGirl.attributes_for(:order))
@@ -113,7 +149,7 @@ RSpec.describe OrdersController, type: :controller do
       it 'should change order status to \'in progress\'' do
         token = JsonWebToken.encode(user_id: driver.id, type: 'Driver')
         request.headers['Authorization'] = token
-        put :update, params: { id: @order.id }
+        patch :apply, params: { id: @order.id }
         expect(response).to have_http_status(200)
         expect(JSON.parse(response.body)).to include_json(current_order: [])
         expect(Order.find(@order.id).state).to eq 'in progress'
@@ -122,7 +158,7 @@ RSpec.describe OrdersController, type: :controller do
 
     context 'when not logged in' do
       it 'should return 401' do
-        put :update, params: { id: @order.id }
+        patch :apply, params: { id: @order.id }
         expect(response).to have_http_status(401)
       end
     end
@@ -141,7 +177,7 @@ RSpec.describe OrdersController, type: :controller do
       it 'should change order status to \'canceled\'' do
         token = JsonWebToken.encode(user_id: dispatcher.id, type: 'Dispatcher')
         request.headers['Authorization'] = token
-        put :cancel, params: { id: @order.id }
+        patch :cancel, params: { id: @order.id }
         expect(response).to have_http_status(200)
         expect(JSON.parse(response.body)).to include_json(current_order: [])
         expect(Order.find(@order.id).state).to eq 'canceled'
@@ -149,17 +185,17 @@ RSpec.describe OrdersController, type: :controller do
     end
 
     context 'when logged in as driver' do
-      it 'should return 422' do
+      it 'should return 403' do
         token = JsonWebToken.encode(user_id: driver.id, type: 'Driver')
         request.headers['Authorization'] = token
-        put :cancel, params: { id: @order.id }
+        patch :cancel, params: { id: @order.id }
         expect(response).to have_http_status(403)
       end
     end
 
     context 'when not logged in' do
       it 'should return 401' do
-        put :cancel, params: { id: @order.id }
+        patch :cancel, params: { id: @order.id }
         expect(response).to have_http_status(401)
       end
     end

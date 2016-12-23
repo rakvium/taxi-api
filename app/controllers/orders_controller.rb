@@ -1,7 +1,7 @@
 # class for orders management
 class OrdersController < ApplicationController
   before_action :check_client_params, only: [:create]
-  before_action :authenticate_request!, only: [:index, :show, :update, :cancel]
+  before_action :authenticate_request!, only: [:index, :show, :update, :cancel, :apply]
 
   def index
     render json: { 'orders' => @current_user.show_order_list }
@@ -24,6 +24,15 @@ class OrdersController < ApplicationController
   end
 
   def update
+    if @current_user.try(:instance_of?, Driver)
+      return render json: { 'error' => 'You are not allowed to change an order' }, status: 403
+    end
+    query = Order.update(params[:id], update_order_params)
+    return render json: { 'error' => query.errors }, status: 422 unless query.errors.blank?
+    render json: { 'current_order' => query.attributes }
+  end
+
+  def apply
     return render json: { 'error' => 'You are not a driver' }, status: 422 unless @current_user.instance_of? Driver
     order = Order.find(params[:id])
     order.driver_id = @current_user.id
@@ -35,7 +44,7 @@ class OrdersController < ApplicationController
 
   def cancel
     if @current_user.try(:instance_of?, Driver)
-      return render json: { 'error' => 'You are not allowed  to cancel an order' }, status: 403
+      return render json: { 'error' => 'You are not allowed to cancel an order' }, status: 403
     end
     order = Order.find(params[:id])
     order.state = 'canceled'
@@ -53,6 +62,10 @@ class OrdersController < ApplicationController
   def check_client_params
     @client = Client.current_client(client_params) # id of client in hash
     render json: { 'error' => @client.errors }, status: :unprocessable_entity unless @client.errors.empty?
+  end
+
+  def update_order_params
+    params.require(:order).permit(:from, :to, :comment, :state, :client_id, :driver_id, :price)
   end
 
   def client_params
