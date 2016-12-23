@@ -111,6 +111,18 @@ RSpec.describe OrdersController, type: :controller do
         expect(response).to have_http_status(401)
       end
     end
+
+    context 'when account is blocked' do
+      let(:admin) { Admin.create FactoryGirl.attributes_for(:admin) }
+
+      it 'should return 403' do
+        Admin.update(admin.id, blocked: true)
+        token = JsonWebToken.encode(user_id: admin.id, type: 'Admin')
+        request.headers['Authorization'] = token
+        get :show, params: { id: @order.id }
+        expect(response).to have_http_status(403)
+      end
+    end
   end
 
   describe 'PATCH #update' do
@@ -147,6 +159,18 @@ RSpec.describe OrdersController, type: :controller do
         expect(response).to have_http_status(401)
       end
     end
+
+    context 'when account is blocked' do
+      let(:admin) { Admin.create FactoryGirl.attributes_for(:admin) }
+
+      it 'should return 403' do
+        Admin.update(admin.id, blocked: true)
+        token = JsonWebToken.encode(user_id: admin.id, type: 'Admin')
+        request.headers['Authorization'] = token
+        get :update, params: { id: @order.id }
+        expect(response).to have_http_status(403)
+      end
+    end
   end
 
   describe 'PATCH #apply' do
@@ -172,6 +196,18 @@ RSpec.describe OrdersController, type: :controller do
       it 'should return 401' do
         patch :apply, params: { id: @order.id }
         expect(response).to have_http_status(401)
+      end
+    end
+
+    context 'when account is blocked' do
+      let(:admin) { Admin.create FactoryGirl.attributes_for(:admin) }
+
+      it 'should return 403' do
+        Admin.update(admin.id, blocked: true)
+        token = JsonWebToken.encode(user_id: admin.id, type: 'Admin')
+        request.headers['Authorization'] = token
+        get :apply, params: { id: @order.id }
+        expect(response).to have_http_status(403)
       end
     end
   end
@@ -209,6 +245,18 @@ RSpec.describe OrdersController, type: :controller do
       it 'should return 401' do
         patch :cancel, params: { id: @order.id }
         expect(response).to have_http_status(401)
+      end
+    end
+
+    context 'when account is blocked' do
+      let(:admin) { Admin.create FactoryGirl.attributes_for(:admin) }
+
+      it 'should return 403' do
+        Admin.update(admin.id, blocked: true)
+        token = JsonWebToken.encode(user_id: admin.id, type: 'Admin')
+        request.headers['Authorization'] = token
+        get :cancel, params: { id: @order.id }
+        expect(response).to have_http_status(403)
       end
     end
   end
