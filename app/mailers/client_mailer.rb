@@ -6,4 +6,9 @@ class ClientMailer < ApplicationMailer
     @auto = Driver.find(Order.find(order_id).driver_id).auto
     mail(to: email, subject: 'Taxi')
   end
+
+  def cancel_email(order_id, email)
+    @order = Order.find(order_id)
+    mail(to: email, subject: 'Taxi')
+  end
 end
