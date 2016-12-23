@@ -1,9 +1,17 @@
 Rails.application.routes.draw do
   post 'auth_admin' => 'admin_authentication#authenticate_admin'
-  post 'create_admin' => 'admin#create_admin'
-  post 'create_driver' => 'admin#create_driver'
-  post 'create_dispatcher' => 'admin#create_dispatcher'
-  get 'admin' => 'admin#index'
+  resources :admins, controller: :admin do
+    collection do
+      post 'create_driver'
+      post 'create_dispatcher'
+      get 'show_driver'
+      get 'show_dispatcher'
+      post 'update_driver'
+      post 'update_dispatcher'
+      post 'destroy_driver'
+      post 'destroy_dispatcher'
+    end
+  end
   resources :orders, only: [:index, :create, :update, :show] do
     member do
       put 'cancel'
@@ -11,5 +19,4 @@ Rails.application.routes.draw do
   end
   resources :dispatchers, only: [:index, :create]
   resources :drivers, only: [:index, :create]
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

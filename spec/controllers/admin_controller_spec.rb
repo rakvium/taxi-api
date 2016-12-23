@@ -1,16 +1,16 @@
 require 'rails_helper'
 require 'rspec/json_expectations'
 RSpec.describe AdminController, type: :controller do
-  context 'POST #create_admin' do
+  context 'POST #create' do
     it 'can`t create admin if not authenticated as an admin' do
-      post :create_admin, format: :json, params: { name: 'admin', email: 'admin@email.com', password: 'password' }
+      post :create, format: :json, params: { name: 'admin', email: 'admin@email.com', password: 'password' }
       expect(JSON.parse(response.body)).to include_json(errors: ['Not Authenticated'])
     end
     it 'can create admin ' do
       current_admin = Admin.create FactoryGirl.attributes_for(:admin)
       token = JsonWebToken.encode(user_id: current_admin.id, type: 'Admin')
       request.headers['Authorization'] = token
-      post :create_admin, format: :json, params: { admin: {
+      post :create, format: :json, params: { admin: {
         name: 'admin',
         email: 'admin@email.com',
         password: 'password'
