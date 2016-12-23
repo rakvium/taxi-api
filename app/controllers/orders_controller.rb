@@ -1,7 +1,7 @@
 # class for orders management
 class OrdersController < ApplicationController
   before_action :check_client_params, only: [:create]
-  before_action :authenticate_request!, only: [:index, :show, :update, :cancel, :apply]
+  before_action :authenticate_request!, only: [:index, :show, :update, :cancel, :apply, :complete]
 
   def index
     render json: { 'orders' => @current_user.show_order_list }
@@ -33,7 +33,7 @@ class OrdersController < ApplicationController
   end
 
   def apply
-    return render json: { 'error' => 'You are not a driver' }, status: 422 unless @current_user.instance_of? Driver
+    return render json: { 'error' => 'You are not a driver' }, status: 403 unless @current_user.instance_of? Driver
     order = Order.find(params[:id])
     order.driver_id = @current_user.id
     order.state = 'active'
@@ -42,8 +42,17 @@ class OrdersController < ApplicationController
     send_email_to_client(order.id, order.client_id)
   end
 
+  def complete
+    return render json: { 'error' => 'You are not a driver' }, status: 403 unless @current_user.instance_of? Driver
+    order = Order.find(params[:id])
+    order.driver_id = @current_user.id
+    order.state = 'completed'
+    order.save
+    render json: { 'current_order' => order }
+  end
+
   def cancel
-    if @current_user.try(:instance_of?, Driver)
+    if @current_user.instance_of? Driver
       return render json: { 'error' => 'You are not allowed to cancel an order' }, status: 403
     end
     order = Order.find(params[:id])
