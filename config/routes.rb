@@ -1,10 +1,5 @@
 Rails.application.routes.draw do
-  # devise_for :dispatchers
-  # devise_for :drivers # defaults: { format: :json } # undefined method `flash'
   post 'auth_admin' => 'admin_authentication#authenticate_admin'
-  resources :orders, only: [:index, :create, :update, :show]
-  resources :dispatchers, only: [:index, :create]
-  resources :drivers, only: [:index, :create]
   resources :admins, controller: :admin do
     collection do
       post 'create_driver'
@@ -17,6 +12,11 @@ Rails.application.routes.draw do
       post 'destroy_dispatcher'
     end
   end
-  # devise_for :admins
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :orders, only: [:index, :create, :update, :show] do
+    member do
+      put 'cancel'
+    end
+  end
+  resources :dispatchers, only: [:index, :create]
+  resources :drivers, only: [:index, :create]
 end
