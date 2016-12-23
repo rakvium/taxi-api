@@ -10,6 +10,10 @@ Rails.application.routes.draw do
       post 'update_dispatcher'
       post 'destroy_driver'
       post 'destroy_dispatcher'
+      get 'index_admin'
+      get 'index_driver'
+      get 'index_dispatcher'
+      get 'index_client'
     end
   end
   resources :orders, only: [:index, :create, :update, :show] do
