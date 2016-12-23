@@ -36,7 +36,7 @@ class OrdersController < ApplicationController
     return render json: { 'error' => 'You are not a driver' }, status: 422 unless @current_user.instance_of? Driver
     order = Order.find(params[:id])
     order.driver_id = @current_user.id
-    order.state = 'in progress'
+    order.state = 'active'
     order.save
     render json: { 'current_order' => order }
     send_email_to_client(order.id, order.client_id)

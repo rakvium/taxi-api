@@ -17,6 +17,7 @@ class ApplicationController < ActionController::API
 
   def authenticate(user)
     @current_user = user.find(auth_token[:user_id])
+    render json: { errors: ['You are blocked'] }, status: :forbidden if @current_user.blocked
   rescue JWT::VerificationError, JWT::DecodeError
     render json: { errors: ['Not Authenticated'] }, status: :unauthorized
   end
