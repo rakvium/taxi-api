@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     member do
       patch 'cancel'
       patch 'apply'
+      patch 'complete'
     end
   end
   resources :dispatchers, only: [:index, :create]

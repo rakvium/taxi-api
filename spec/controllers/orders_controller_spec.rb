@@ -260,4 +260,53 @@ RSpec.describe OrdersController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #complete' do
+    let(:client) { Client.create FactoryGirl.attributes_for(:client) }
+    let(:dispatcher) { Dispatcher.create FactoryGirl.attributes_for(:dispatcher) }
+    let(:driver) { Driver.create FactoryGirl.attributes_for(:driver) }
+    before :each do
+      params = { client_id: client.id }.merge(FactoryGirl.attributes_for(:order))
+      @order = Order.create params
+    end
+
+    context 'when logged in as dispatcher or admin' do
+      it 'should change order status to \'canceled\'' do
+        token = JsonWebToken.encode(user_id: driver.id, type: 'Driver')
+        request.headers['Authorization'] = token
+        patch :complete, params: { id: @order.id }
+        expect(response).to have_http_status(200)
+        expect(JSON.parse(response.body)).to include_json(current_order: [])
+        expect(Order.find(@order.id).state).to eq 'completed'
+      end
+    end
+
+    context 'when logged in as driver' do
+      it 'should return 403' do
+        token = JsonWebToken.encode(user_id: dispatcher.id, type: 'Dispatcher')
+        request.headers['Authorization'] = token
+        patch :complete, params: { id: @order.id }
+        expect(response).to have_http_status(403)
+      end
+    end
+
+    context 'when not logged in' do
+      it 'should return 401' do
+        patch :complete, params: { id: @order.id }
+        expect(response).to have_http_status(401)
+      end
+    end
+
+    context 'when account is blocked' do
+      let(:admin) { Admin.create FactoryGirl.attributes_for(:admin) }
+
+      it 'should return 403' do
+        Admin.update(admin.id, blocked: true)
+        token = JsonWebToken.encode(user_id: admin.id, type: 'Admin')
+        request.headers['Authorization'] = token
+        get :complete, params: { id: @order.id }
+        expect(response).to have_http_status(403)
+      end
+    end
+  end
 end
