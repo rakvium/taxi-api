@@ -44,6 +44,18 @@ RSpec.describe OrdersController, type: :controller do
         expect(JSON.parse(response.body)).to include_json(orders: [])
       end
     end
+
+    context 'when account is blocked' do
+      let(:admin) { Admin.create FactoryGirl.attributes_for(:admin) }
+
+      it 'should return 403' do
+        Admin.update(admin.id, blocked: true)
+        token = JsonWebToken.encode(user_id: admin.id, type: 'Admin')
+        request.headers['Authorization'] = token
+        get :index
+        expect(response).to have_http_status(403)
+      end
+    end
   end
 
   describe 'POST #create' do
@@ -152,7 +164,7 @@ RSpec.describe OrdersController, type: :controller do
         patch :apply, params: { id: @order.id }
         expect(response).to have_http_status(200)
         expect(JSON.parse(response.body)).to include_json(current_order: [])
-        expect(Order.find(@order.id).state).to eq 'in progress'
+        expect(Order.find(@order.id).state).to eq 'active'
       end
     end
 
