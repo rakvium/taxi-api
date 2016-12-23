@@ -111,11 +111,11 @@ RSpec.describe OrdersController, type: :controller do
     end
 
     context 'when logged in as driver' do
-      it 'should return 401' do
+      it 'should return 403' do
         token = JsonWebToken.encode(user_id: driver.id, type: 'Driver')
         request.headers['Authorization'] = token
         patch :update, params: { id: @order.id }
-        expect(response).to have_http_status(401)
+        expect(response).to have_http_status(403)
       end
     end
 
@@ -185,7 +185,7 @@ RSpec.describe OrdersController, type: :controller do
     end
 
     context 'when logged in as driver' do
-      it 'should return 422' do
+      it 'should return 403' do
         token = JsonWebToken.encode(user_id: driver.id, type: 'Driver')
         request.headers['Authorization'] = token
         patch :cancel, params: { id: @order.id }

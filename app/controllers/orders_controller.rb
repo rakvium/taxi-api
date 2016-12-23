@@ -25,7 +25,7 @@ class OrdersController < ApplicationController
 
   def update
     if @current_user.try(:instance_of?, Driver)
-      return render json: { 'error' => 'You are not allowed  to change an order' }, status: 401
+      return render json: { 'error' => 'You are not allowed to change an order' }, status: 403
     end
     query = Order.update(params[:id], update_order_params)
     return render json: { 'error' => query.errors }, status: 422 unless query.errors.blank?
@@ -44,7 +44,7 @@ class OrdersController < ApplicationController
 
   def cancel
     if @current_user.try(:instance_of?, Driver)
-      return render json: { 'error' => 'You are not allowed  to cancel an order' }, status: 403
+      return render json: { 'error' => 'You are not allowed to cancel an order' }, status: 403
     end
     order = Order.find(params[:id])
     order.state = 'canceled'
