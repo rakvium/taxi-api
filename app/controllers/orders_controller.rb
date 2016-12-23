@@ -39,7 +39,7 @@ class OrdersController < ApplicationController
     order.state = 'active'
     order.save
     render json: { 'current_order' => order }
-    send_email_to_client(order.id, order.client_id)
+    send_email_to_client_apply(order.id, order.client_id)
   end
 
   def complete
@@ -49,6 +49,7 @@ class OrdersController < ApplicationController
     order.state = 'completed'
     order.save
     render json: { 'current_order' => order }
+    send_email_to_client_complete(order.id, order.client_id)
   end
 
   def cancel
@@ -59,13 +60,24 @@ class OrdersController < ApplicationController
     order.state = 'canceled'
     order.save
     render json: { 'current_order' => order }
+    send_email_to_client_cancel(order.id, order.client_id)
   end
 
   private
 
-  def send_email_to_client(order_id, client_id)
+  def send_email_to_client_apply(order_id, client_id)
     client_email = Client.find(client_id).email
     ClientMailer.welcome_email(order_id, client_email).deliver_now if client_email
+  end
+
+  def send_email_to_client_complete(order_id, client_id)
+    client_email = Client.find(client_id).email
+    ClientMailer.complete_email(order_id, client_email).deliver_now if client_email
+  end
+
+  def send_email_to_client_cancel(order_id, client_id)
+    client_email = Client.find(client_id).email
+    ClientMailer.cancel_email(order_id, client_email).deliver_now if client_email
   end
 
   def check_client_params
