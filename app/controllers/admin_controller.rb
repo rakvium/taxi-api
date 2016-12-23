@@ -2,8 +2,21 @@
 class AdminController < ApplicationController
   before_action :authenticate_request!
   before_action :current_user_admin
+
   def index
-    render json: { 'logged_in' => true }
+    render json: Admin.all
+  end
+
+  def index_dispatcher
+    render json: Dispatcher.all
+  end
+
+  def index_driver
+    render json: Driver.all
+  end
+
+  def index_client
+    render json: Client.all
   end
 
   def create
