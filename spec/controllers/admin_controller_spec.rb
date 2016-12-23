@@ -62,14 +62,4 @@ RSpec.describe AdminController, type: :controller do
       expect(JSON.parse(response.body)).to include_json(name: 'vasya', phone: '123456', auto: 'bmw')
     end
   end
-
-  context 'GET #index' do
-    it 'when logged in as admin' do
-      admin = Admin.create FactoryGirl.attributes_for(:admin)
-      token = JsonWebToken.encode(user_id: admin.id, type: 'Admin')
-      request.headers['Authorization'] = token
-      get :index, format: :json
-      expect(JSON.parse(response.body)).to include_json('logged_in' => true)
-    end
-  end
 end
