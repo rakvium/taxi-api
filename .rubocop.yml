@@ -19,6 +19,7 @@ AllCops:
       - 'db/migrate/**'
       - 'db/schema.rb'
       - 'vendor/**/*'
+      - 'config/deploy.rb'
 
 Style/FrozenStringLiteralComment:
   Enabled: false
