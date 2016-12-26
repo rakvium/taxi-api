@@ -4,12 +4,16 @@ Rails.application.routes.draw do
     collection do
       post 'create_driver'
       post 'create_dispatcher'
+      post 'create_client'
       get 'show_driver'
       get 'show_dispatcher'
-      post 'update_driver'
-      post 'update_dispatcher'
+      get 'show_client'
+      put 'update_driver'
+      put 'update_dispatcher'
+      put 'update_client'
       post 'destroy_driver'
       post 'destroy_dispatcher'
+      post 'destroy_client'
       get 'index_driver'
       get 'index_dispatcher'
       get 'index_client'
@@ -22,6 +26,10 @@ Rails.application.routes.draw do
       patch 'complete'
     end
   end
-  resources :dispatchers, only: [:index, :create]
+  resources :dispatchers, only: [:index, :create] do
+    collection do
+      get 'index_driver'
+    end
+  end
   resources :drivers, only: [:index, :create]
 end
