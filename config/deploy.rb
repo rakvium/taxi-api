@@ -58,6 +58,12 @@ namespace :deploy do
     end
   end
 
+  task :link_db do
+    run "ln -s #{shared_path}/config/database.yml #{latest_release}/config/database.yml"
+  end
+
+  before "deploy:migrate", "deploy:link_db"
+
   desc 'Initial Deploy'
   task :initial do
     on roles(:app) do
