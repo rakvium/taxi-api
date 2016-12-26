@@ -6,7 +6,7 @@ set :user,            'deploy'
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
 
-set :branch, 'feature/deploy'
+set :branch, fetch(:branch, 'feature/deploy')
 # Don't change these unless you know what you're doing
 set :pty,             true
 set :use_sudo,        false

@@ -1,4 +1,4 @@
-set :branch, 'feature/deploy'
+set :branch, fetch(:branch, 'feature/deploy')
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
