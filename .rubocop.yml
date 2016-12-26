@@ -6,7 +6,8 @@ Metrics/BlockLength:
     Exclude:
       - 'config/routes.rb'
       - 'spec/**/*.rb'
-    
+      - 'config/deploy.rb'
+
 Metrics/LineLength:
     Max: 120
 
@@ -15,6 +16,10 @@ Metrics/MethodLength:
 
 Metrics/ClassLength:
     Max: 200
+
+Rails/Exit:
+    Exclude:
+      - 'config/deploy.rb'
 
 Lint/AssignmentInCondition:
     Exclude:

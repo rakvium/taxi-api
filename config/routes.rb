@@ -29,6 +29,10 @@ Rails.application.routes.draw do
       put 'cancel_request'
     end
   end
-  resources :dispatchers, only: [:index, :create]
+  resources :dispatchers, only: [:index, :create] do
+    collection do
+      get 'index_driver'
+    end
+  end
   resources :drivers, only: [:index, :create]
 end
