@@ -1,6 +1,10 @@
 Rails:
     Enabled: true
 
+Metrics/BlockLength:
+    Exclude:
+      - 'config/routes.rb'
+
 Metrics/LineLength:
     Max: 120
 
@@ -19,7 +23,6 @@ AllCops:
       - 'db/migrate/**'
       - 'db/schema.rb'
       - 'vendor/**/*'
-      - 'config/routes.rb'
 
 Style/FrozenStringLiteralComment:
   Enabled: false
