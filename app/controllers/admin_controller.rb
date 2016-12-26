@@ -154,7 +154,7 @@ class AdminController < ApplicationController
   end
 
   def params_driver
-    params.require(:driver).permit(:name, :phone, :password, :auto, :blocked)
+    params.require(:driver).permit(:name, :phone, :password, :auto, :state, :blocked)
   end
 
   def params_dispatcher
