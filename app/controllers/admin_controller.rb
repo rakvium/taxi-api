@@ -150,7 +150,7 @@ class AdminController < ApplicationController
   end
 
   def params_admin
-    params.require(:admin).permit(:name, :email, :password, :password_confirmation, :locked)
+    params.require(:admin).permit(:name, :email, :password, :password_confirmation, :blocked)
   end
 
   def params_driver
