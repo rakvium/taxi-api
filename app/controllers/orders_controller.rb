@@ -4,7 +4,7 @@ class OrdersController < ApplicationController
   before_action :authenticate_request!, only: [:index, :show, :update, :cancel, :apply, :complete]
 
   def index
-    render json: { 'driver_id' => @current_user.id, 'orders' => @current_user.show_order_list }
+    render json: { 'id' => @current_user.id, 'orders' => @current_user.show_order_list }
   end
 
   # here i should create order from params
