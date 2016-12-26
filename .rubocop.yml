@@ -2,9 +2,11 @@ Rails:
     Enabled: true
 
 Metrics/BlockLength:
+    Max: 25
     Exclude:
       - 'config/routes.rb'
-
+      - 'spec/**/*.rb'
+    
 Metrics/LineLength:
     Max: 120
 
