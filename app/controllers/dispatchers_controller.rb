@@ -1,7 +1,16 @@
 # Dispatcher controller
 class DispatchersController < ApplicationController
+  before_action :authenticate_request!, only: [:index_driver]
+
   def index
     # render json: { 'logged_in' => true }
+  end
+
+  def index_driver
+    if @current_user.try(:instance_of?, Driver)
+      return render json: { 'error' => 'You are not allowed to see a driver list' }, status: 403
+    end
+    render json: Driver.all
   end
 
   # for auth dispatcher. Instead of new controller
