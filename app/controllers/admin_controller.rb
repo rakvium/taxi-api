@@ -24,7 +24,7 @@ class AdminController < ApplicationController
     if admin.save
       render json: { name: admin.name, email: admin.email }
     else
-      render json: { 'error' => admin.errors }, status: 422 unless admin.errors.blank?
+      render json: { 'error' => admin.errors }, status: 422
     end
   end
 
@@ -33,7 +33,7 @@ class AdminController < ApplicationController
     if driver.save
       render json: { name: driver.name, phone: driver.phone, auto: driver.auto }
     else
-      render json: { 'error' => driver.errors }, status: 422 unless driver.errors.blank?
+      render json: { 'error' => driver.errors }, status: 422
     end
   end
 
@@ -42,7 +42,7 @@ class AdminController < ApplicationController
     if dispatcher.save
       render json: { name: dispatcher.name, email: dispatcher.email }
     else
-      render json: { 'error' => dispatcher.errors }, status: 422 unless dispatcher.errors.blank?
+      render json: { 'error' => dispatcher.errors }, status: 422
     end
   end
 
@@ -51,7 +51,7 @@ class AdminController < ApplicationController
     if client.save
       render json: client
     else
-      render json: { 'error' => client.errors }, status: 422 unless client.errors.blank?
+      render json: { 'error' => client.errors }, status: 422
     end
   end
 
@@ -76,7 +76,7 @@ class AdminController < ApplicationController
     if admin.update_attributes(params_admin)
       render json:  admin
     else
-      render json: { 'error' => admin.errors }, status: 422 unless admin.errors.blank?
+      render json: { 'error' => admin.errors }, status: 422
     end
   end
 
@@ -85,7 +85,7 @@ class AdminController < ApplicationController
     if driver.update_attributes(params_driver)
       render json: driver
     else
-      render json: { 'error' => driver.errors }, status: 422 unless driver.errors.blank?
+      render json: { 'error' => driver.errors }, status: 422
     end
   end
 
@@ -94,7 +94,7 @@ class AdminController < ApplicationController
     if dispatcher.update_attributes(params_dispatcher)
       render json: dispatcher
     else
-      render json: { 'error' => dispatcher.errors }, status: 422 unless dispatcher.errors.blank?
+      render json: { 'error' => dispatcher.errors }, status: 422
     end
   end
 
@@ -103,7 +103,7 @@ class AdminController < ApplicationController
     if client.update_attributes(params_client)
       render json: client
     else
-      render json: { 'error' => client.errors }, status: 422 unless client.errors.blank?
+      render json: { 'error' => client.errors }, status: 422
     end
   end
 
@@ -112,7 +112,7 @@ class AdminController < ApplicationController
     if admin.destroy
       render json: { 'The admin is successfully destroyed!' => true }
     else
-      render json: { 'error' => admin.errors }, status: 422 unless admin.errors.blank?
+      render json: { 'error' => admin.errors }, status: 422
     end
   end
 
@@ -121,7 +121,7 @@ class AdminController < ApplicationController
     if driver.destroy
       render json: { 'The driver is successfully destroyed!' => true }
     else
-      render json: { 'error' => driver.errors }, status: 422 unless driver.errors.blank?
+      render json: { 'error' => driver.errors }, status: 422
     end
   end
 
@@ -130,7 +130,7 @@ class AdminController < ApplicationController
     if dispatcher.destroy
       render json: { 'The dispatcher is successfully destroyed!' => true }
     else
-      render json: { 'error' => dispatcher.errors }, status: 422 unless dispatcher.errors.blank?
+      render json: { 'error' => dispatcher.errors }, status: 422
     end
   end
 
@@ -139,7 +139,7 @@ class AdminController < ApplicationController
     if client.destroy
       render json: { 'The client is successfully destroyed!' => client.id }
     else
-      render json: { 'error' => client.errors }, status: 422 unless client.errors.blank?
+      render json: { 'error' => client.errors }, status: 422
     end
   end
 
