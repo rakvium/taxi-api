@@ -123,7 +123,7 @@ class AdminController < ApplicationController
   end
 
   def params_driver
-    params.require(:driver).permit(:name, :phone, :password, :auto)
+    params.require(:driver).permit(:name, :phone, :password, :auto, :state)
   end
 
   def params_dispatcher
