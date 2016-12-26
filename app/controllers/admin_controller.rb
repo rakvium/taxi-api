@@ -46,6 +46,15 @@ class AdminController < ApplicationController
     end
   end
 
+  def create_client
+    client = Client.new(params_client)
+    if client.save
+      render json: client
+    else
+      render json: { 'error' => client.errors }
+    end
+  end
+
   def show
     render json: Admin.find(params[:id])
   end
@@ -56,6 +65,10 @@ class AdminController < ApplicationController
 
   def show_dispatcher
     render json: Dispatcher.find(params[:id])
+  end
+
+  def show_client
+    render json: Client.find(params[:id])
   end
 
   def update
@@ -82,6 +95,15 @@ class AdminController < ApplicationController
       render json: dispatcher
     else
       render json: { 'error' => dispatcher.errors }
+    end
+  end
+
+  def update_client
+    client = Client.find(params[:id])
+    if client.update_attributes(params_client)
+      render json: client
+    else
+      render json: { 'error' => client.errors }
     end
   end
 
@@ -112,6 +134,15 @@ class AdminController < ApplicationController
     end
   end
 
+  def destroy_client
+    client = Client.find(params[:id])
+    if client.destroy
+      render json: { 'The client is successfully destroyed!' => client.id }
+    else
+      render json: { 'error' => client.errors }
+    end
+  end
+
   private
 
   def current_user_admin
@@ -128,5 +159,9 @@ class AdminController < ApplicationController
 
   def params_dispatcher
     params.require(:dispatcher).permit(:name, :email, :password)
+  end
+
+  def params_client
+    params.require(:client).permit(:phone, :email)
   end
 end
