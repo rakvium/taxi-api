@@ -1,6 +1,6 @@
 # Model for clients, this model can makes orders
 class Client < ApplicationRecord
-  has_many :orders
+  has_many :orders, dependent: :destroy
 
   validates :phone, presence: true, length: { is: 10 },
                     numericality: { only_integer: true }
