@@ -1,6 +1,13 @@
 Rails:
     Enabled: true
 
+Metrics/BlockLength:
+    Max: 25
+    Exclude:
+      - 'config/routes.rb'
+      - 'spec/**/*.rb'
+      - 'config/deploy.rb'
+
 Metrics/LineLength:
     Max: 120
 
@@ -9,9 +16,6 @@ Metrics/MethodLength:
 
 Metrics/ClassLength:
     Max: 200
-
-Metrics/BlockLength:
-    Max: 30
 
 Rails/Exit:
     Exclude:

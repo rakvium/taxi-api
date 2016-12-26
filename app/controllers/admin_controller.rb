@@ -24,7 +24,7 @@ class AdminController < ApplicationController
     if admin.save
       render json: { name: admin.name, email: admin.email }
     else
-      render json: { 'error' => admin.errors }
+      render json: { 'error' => admin.errors }, status: 422
     end
   end
 
@@ -33,7 +33,7 @@ class AdminController < ApplicationController
     if driver.save
       render json: { name: driver.name, phone: driver.phone, auto: driver.auto }
     else
-      render json: { 'error' => driver.errors }
+      render json: { 'error' => driver.errors }, status: 422
     end
   end
 
@@ -42,7 +42,16 @@ class AdminController < ApplicationController
     if dispatcher.save
       render json: { name: dispatcher.name, email: dispatcher.email }
     else
-      render json: { 'error' => dispatcher.errors }
+      render json: { 'error' => dispatcher.errors }, status: 422
+    end
+  end
+
+  def create_client
+    client = Client.new(params_client)
+    if client.save
+      render json: client
+    else
+      render json: { 'error' => client.errors }, status: 422
     end
   end
 
@@ -58,12 +67,16 @@ class AdminController < ApplicationController
     render json: Dispatcher.find(params[:id])
   end
 
+  def show_client
+    render json: Client.find(params[:id])
+  end
+
   def update
     admin = Admin.find(params[:id])
     if admin.update_attributes(params_admin)
       render json:  admin
     else
-      render json: { 'error' => admin.errors }
+      render json: { 'error' => admin.errors }, status: 422
     end
   end
 
@@ -72,7 +85,7 @@ class AdminController < ApplicationController
     if driver.update_attributes(params_driver)
       render json: driver
     else
-      render json: { 'error' => driver.errors }
+      render json: { 'error' => driver.errors }, status: 422
     end
   end
 
@@ -81,7 +94,16 @@ class AdminController < ApplicationController
     if dispatcher.update_attributes(params_dispatcher)
       render json: dispatcher
     else
-      render json: { 'error' => dispatcher.errors }
+      render json: { 'error' => dispatcher.errors }, status: 422
+    end
+  end
+
+  def update_client
+    client = Client.find(params[:id])
+    if client.update_attributes(params_client)
+      render json: client
+    else
+      render json: { 'error' => client.errors }, status: 422
     end
   end
 
@@ -90,7 +112,7 @@ class AdminController < ApplicationController
     if admin.destroy
       render json: { 'The admin is successfully destroyed!' => true }
     else
-      render json: { 'error' => admin.errors }
+      render json: { 'error' => admin.errors }, status: 422
     end
   end
 
@@ -99,7 +121,7 @@ class AdminController < ApplicationController
     if driver.destroy
       render json: { 'The driver is successfully destroyed!' => true }
     else
-      render json: { 'error' => driver.errors }
+      render json: { 'error' => driver.errors }, status: 422
     end
   end
 
@@ -108,7 +130,16 @@ class AdminController < ApplicationController
     if dispatcher.destroy
       render json: { 'The dispatcher is successfully destroyed!' => true }
     else
-      render json: { 'error' => dispatcher.errors }
+      render json: { 'error' => dispatcher.errors }, status: 422
+    end
+  end
+
+  def destroy_client
+    client = Client.find(params[:id])
+    if client.destroy
+      render json: { 'The client is successfully destroyed!' => client.id }
+    else
+      render json: { 'error' => client.errors }, status: 422
     end
   end
 
@@ -119,14 +150,18 @@ class AdminController < ApplicationController
   end
 
   def params_admin
-    params.require(:admin).permit(:name, :email, :password, :password_confirmation)
+    params.require(:admin).permit(:name, :email, :password, :password_confirmation, :blocked)
   end
 
   def params_driver
-    params.require(:driver).permit(:name, :phone, :password, :auto, :state)
+    params.require(:driver).permit(:name, :phone, :password, :auto, :state, :blocked)
   end
 
   def params_dispatcher
-    params.require(:dispatcher).permit(:name, :email, :password)
+    params.require(:dispatcher).permit(:name, :email, :password, :blocked)
+  end
+
+  def params_client
+    params.require(:client).permit(:phone, :email)
   end
 end
