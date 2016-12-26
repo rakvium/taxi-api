@@ -26,6 +26,10 @@ Rails.application.routes.draw do
       patch 'complete'
     end
   end
-  resources :dispatchers, only: [:index, :create]
+  resources :dispatchers, only: [:index, :create] do
+    collection do
+      get 'index_driver'
+    end
+  end
   resources :drivers, only: [:index, :create]
 end
