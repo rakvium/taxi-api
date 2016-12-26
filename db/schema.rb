@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161223112458) do
+ActiveRecord::Schema.define(version: 20161226134609) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,10 +92,21 @@ ActiveRecord::Schema.define(version: 20161223112458) do
     t.text     "comment"
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
+    t.boolean  "req",                                default: false
     t.index ["client_id"], name: "index_orders_on_client_id", using: :btree
     t.index ["driver_id"], name: "index_orders_on_driver_id", using: :btree
   end
 
+  create_table "requests", force: :cascade do |t|
+    t.text     "comment",                   null: false
+    t.integer  "driver_id"
+    t.boolean  "request",    default: true
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.index ["driver_id"], name: "index_requests_on_driver_id", using: :btree
+  end
+
   add_foreign_key "orders", "clients"
   add_foreign_key "orders", "drivers"
+  add_foreign_key "requests", "drivers"
 end
