@@ -64,6 +64,12 @@ class OrdersController < ApplicationController
     send_email_to_client_cancel(order.id, order.client_id)
   end
 
+  def cancel_request
+    cancel_comment = Order.update(params[:id], update_order_params_cancel)
+    return render json: { 'error' => cancel_comment.errors }, status: 422 unless cancel_comment.errors.blank?
+    render json: { 'current_order' => cancel_comment.attributes }
+  end
+
   private
 
   def send_email_to_client_apply(order_id, client_id)
@@ -88,6 +94,10 @@ class OrdersController < ApplicationController
 
   def update_order_params
     params.require(:order).permit(:from, :to, :comment, :state, :client_id, :driver_id, :price)
+  end
+
+  def update_order_params_cancel
+    params.require(:order).permit(:cancel_comment, :cancel_request)
   end
 
   def client_params
