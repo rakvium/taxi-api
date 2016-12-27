@@ -6,7 +6,6 @@ class OrdersController < ApplicationController
   def index
     user = @current_user.class.name.downcase.concat('_id')
     render json: { user => @current_user.id, 'orders' => Order.all }
-
   end
 
   # here i should create order from params
