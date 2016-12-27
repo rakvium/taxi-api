@@ -16,11 +16,11 @@ Admin.first_or_create(name: 'admin2', email: 'admin2@example.com', password: '56
 Dispatcher.first_or_create(name: 'dispatcher1', email: 'dispatcher1@example.com', password: '654321')
 Dispatcher.first_or_create(name: 'dispatcher2', email: 'dispatcher2@example.com', password: '098765')
 
-Driver.first_or_create(name: 'driver1', phone: '0000000000', password: '000000', auto: 'test')
-Driver.first_or_create(name: 'driver2', phone: '1111111111', password: '111111', auto: 'test', status: 'active')
+first_driver = Driver.first_or_create(name: 'driver1', phone: '0000000000', password: '000000', auto: 'test')
+second_driver = Driver.first_or_create(name: 'driver2', phone: '1111111111', password: '111111', auto: 'test', status: 'active')
 Driver.first_or_create(name: 'driver3', phone: '2222222222', password: '222222', auto: 'test')
 
 Order.first_or_create(client_id: first_client.id, from: 'work', to: 'home')
-Order.first_or_create(client_id: second_client.id, driver_id: '1', from: 'home', to: 'work', state: 'active')
+Order.first_or_create(client_id: second_client.id, driver_id: first_driver.id, from: 'home', to: 'work', state: 'active')
 Order.first_or_create(client_id: third_client.id, from: 'somewhere', to: 'anywhere')
-Order.first_or_create(client_id: first_client.id, driver_id: '2', from: 'work', to: 'home', state: 'completed')
+Order.first_or_create(client_id: first_client.id, driver_id: second_driver.id, from: 'work', to: 'home', state: 'completed')
