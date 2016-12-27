@@ -1,10 +1,11 @@
 # class for orders management
 class OrdersController < ApplicationController
   before_action :check_client_params, only: [:create]
-  before_action :authenticate_request!, only: [:index, :show, :update, :cancel, :apply, :complete]
+  before_action :authenticate_request!, only: [:index, :show, :update, :cancel, :apply, :complete, :cancel_request]
 
   def index
-    render json: { 'id' => @current_user.id, 'orders' => @current_user.show_order_list }
+    user = @current_user.class.name.downcase.concat('_id')
+    render json: { user => @current_user.id, 'orders' => @current_user.show_order_list }
   end
 
   # here i should create order from params
@@ -37,6 +38,7 @@ class OrdersController < ApplicationController
     order = Order.find(params[:id])
     order.driver_id = @current_user.id
     order.state = 'active'
+    @current_user.update(status: 'active')
     order.save
     render json: { 'current_order' => order }
     send_email_to_client_apply(order.id, order.client_id)
@@ -47,6 +49,7 @@ class OrdersController < ApplicationController
     order = Order.find(params[:id])
     order.driver_id = @current_user.id
     order.state = 'completed'
+    @current_user.update(status: 'not active')
     order.save
     render json: { 'current_order' => order }
     send_email_to_client_complete(order.id, order.client_id)
@@ -58,9 +61,17 @@ class OrdersController < ApplicationController
     end
     order = Order.find(params[:id])
     order.state = 'canceled'
+    Driver.update(order.driver_id, status: 'not active')
     order.save
     render json: { 'current_order' => order }
     send_email_to_client_cancel(order.id, order.client_id)
+  end
+
+  def cancel_request
+    return render json: { 'error' => 'You are not a driver' }, status: 403 unless @current_user.instance_of? Driver
+    cancel_comment = Order.update(params[:id], update_order_params_cancel)
+    return render json: { 'error' => cancel_comment.errors }, status: 422 unless cancel_comment.errors.blank?
+    render json: { 'current_order' => cancel_comment.attributes }
   end
 
   private
@@ -87,6 +98,10 @@ class OrdersController < ApplicationController
 
   def update_order_params
     params.require(:order).permit(:from, :to, :comment, :state, :client_id, :driver_id, :price)
+  end
+
+  def update_order_params_cancel
+    params.require(:order).permit(:cancel_comment, :cancel_request)
   end
 
   def client_params
