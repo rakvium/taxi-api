@@ -7,6 +7,6 @@ class Dispatcher < ApplicationRecord
   validates :name, presence: true
 
   def show_order_list
-    Order.where(state: 'in progress')
+    Order.all
   end
 end
