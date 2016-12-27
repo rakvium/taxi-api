@@ -134,15 +134,6 @@ class AdminController < ApplicationController
     end
   end
 
-  def destroy_client
-    client = Client.find(params[:id])
-    if client.update(blocked: true)
-      render json: { 'The client is successfully destroyed!' => client.id }
-    else
-      render json: { 'error' => client.errors }, status: 422
-    end
-  end
-
   private
 
   def current_user_admin
