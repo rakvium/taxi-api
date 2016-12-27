@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       put 'update_client'
       post 'destroy_driver'
       post 'destroy_dispatcher'
+      post 'destroy_client'
       get 'index_driver'
       get 'index_dispatcher'
       get 'index_client'
