@@ -118,7 +118,7 @@ class AdminController < ApplicationController
 
   def destroy_driver
     driver = Driver.find(params[:id])
-    if driver.destroy
+    if driver.update(blocked: true)
       render json: { 'The driver is successfully destroyed!' => true }
     else
       render json: { 'error' => driver.errors }, status: 422
@@ -127,7 +127,7 @@ class AdminController < ApplicationController
 
   def destroy_dispatcher
     dispatcher = Dispatcher.find(params[:id])
-    if dispatcher.destroy
+    if dispatcher.update(blocked: true)
       render json: { 'The dispatcher is successfully destroyed!' => true }
     else
       render json: { 'error' => dispatcher.errors }, status: 422
@@ -136,7 +136,7 @@ class AdminController < ApplicationController
 
   def destroy_client
     client = Client.find(params[:id])
-    if client.destroy
+    if client.update(blocked: true)
       render json: { 'The client is successfully destroyed!' => client.id }
     else
       render json: { 'error' => client.errors }, status: 422
