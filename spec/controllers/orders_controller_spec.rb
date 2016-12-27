@@ -182,7 +182,7 @@ RSpec.describe OrdersController, type: :controller do
     end
 
     context 'when logged in as driver' do
-      it 'should change order status to \'in progress\'' do
+      it 'should change order status to \'active\'' do
         token = JsonWebToken.encode(user_id: driver.id, type: 'Driver')
         request.headers['Authorization'] = token
         patch :apply, params: { id: @order.id }
@@ -217,7 +217,7 @@ RSpec.describe OrdersController, type: :controller do
     let(:dispatcher) { Dispatcher.create FactoryGirl.attributes_for(:dispatcher) }
     let(:driver) { Driver.create FactoryGirl.attributes_for(:driver) }
     before :each do
-      params = { client_id: client.id }.merge(FactoryGirl.attributes_for(:order))
+      params = { client_id: client.id, driver_id: driver.id }.merge(FactoryGirl.attributes_for(:order))
       @order = Order.create params
     end
 
