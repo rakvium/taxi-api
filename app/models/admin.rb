@@ -5,7 +5,4 @@ class Admin < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable
 
-  def show_order_list
-    Order.all
-  end
 end

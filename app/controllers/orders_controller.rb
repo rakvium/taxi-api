@@ -1,7 +1,7 @@
 # class for orders management
 class OrdersController < ApplicationController
   before_action :check_client_params, only: [:create]
-  before_action :authenticate_request!, only: [:index, :show, :update, :cancel, :apply, :complete]
+  before_action :authenticate_request!, only: [:index, :show, :update, :cancel, :apply, :complete, :cancel_request]
 
   def index
     render json: Order.all
