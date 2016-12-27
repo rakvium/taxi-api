@@ -40,8 +40,8 @@ class OrdersController < ApplicationController
     order.state = 'active'
     @current_user.update(status: 'active')
     order.save
-    render json: { 'current_order' => order }
     send_email_to_client_apply(order.id, order.client_id)
+    render json: { 'current_order' => order }
   end
 
   def complete
@@ -51,8 +51,8 @@ class OrdersController < ApplicationController
     order.state = 'completed'
     @current_user.update(status: 'not active')
     order.save
-    render json: { 'current_order' => order }
     send_email_to_client_complete(order.id, order.client_id)
+    render json: { 'current_order' => order }
   end
 
   def cancel
@@ -63,8 +63,8 @@ class OrdersController < ApplicationController
     order.state = 'canceled'
     Driver.update(order.driver_id, status: 'not active')
     order.save
-    render json: { 'current_order' => order }
     send_email_to_client_cancel(order.id, order.client_id)
+    render json: { 'current_order' => order }
   end
 
   def cancel_request
