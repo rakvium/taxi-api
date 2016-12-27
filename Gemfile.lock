@@ -199,9 +199,6 @@ GEM
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.8.1)
-    ruby_http_client (3.0.0)
-    sendgrid-ruby (4.0.6)
-      ruby_http_client (~> 3.0.0)
     shoulda-matchers (3.1.1)
       activesupport (>= 4.0.0)
     sinatra (1.0)
@@ -270,7 +267,6 @@ DEPENDENCIES
   rspec-json_expectations
   rspec-rails (~> 3.5)
   rubocop
-  sendgrid-ruby
   shoulda-matchers (~> 3.1)
   spring
   spring-watcher-listen (~> 2.0.0)
